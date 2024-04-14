@@ -243,7 +243,7 @@ extension StateExt<T> on StateMixin<T> {
 
 typedef NotifierBuilder<T> = Widget Function(T state);
 
-abstract class GetStatus<T> with Equality {
+abstract class GetStatus<T> with GetxEquality {
   const GetStatus();
 
   factory GetStatus.loading() => LoadingStatus<T>();
