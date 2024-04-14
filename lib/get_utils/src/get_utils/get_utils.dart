@@ -525,7 +525,7 @@ class GetUtils {
     }
 
     final separatedWords =
-        value.split(RegExp(r'[!@#<>?":`~;[\]\\|=+)(*&^%-\s_]+'));
+        value.split(RegExp(r'[!@#<>?":`~;[\]\\|=+)(*&^%-/\s_]+'));
     var newString = '';
 
     for (final word in separatedWords) {

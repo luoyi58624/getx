@@ -31,11 +31,21 @@ class HomePage extends StatelessWidget {
         title: const Text('首页'),
       ),
       body: Center(
-        child: ElevatedButton(
-          onPressed: () {
-            Navigator.of(context).push(MaterialPageRoute(builder: (context) => const Child()));
-          },
-          child: const Text('子页面'),
+        child: Column(
+          children: [
+            ElevatedButton(
+              onPressed: () {
+                Navigator.of(context).push(MaterialPageRoute(builder: (context) => const Child()));
+              },
+              child: const Text('子页面'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Get.log(GetUtils.camelCase('xx dee')??'');
+              },
+              child: const Text('demo'),
+            ),
+          ],
         ),
       ),
     );

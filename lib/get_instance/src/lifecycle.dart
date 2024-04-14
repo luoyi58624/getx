@@ -1,6 +1,5 @@
 import 'package:flutter/foundation.dart';
-
-import '../../get.dart';
+import 'package:flutter/widgets.dart';
 
 /// The [GetLifeCycle]
 ///
@@ -17,7 +16,7 @@ mixin GetLifeCycleMixin {
   @protected
   @mustCallSuper
   void onInit() {
-    ambiguate(Engine.instance)?.addPostFrameCallback((_) => onReady());
+    WidgetsFlutterBinding.ensureInitialized().addPostFrameCallback((_) => onReady());
   }
 
   /// Called 1 frame after onInit(). It is the perfect place to enter
@@ -42,11 +41,9 @@ mixin GetLifeCycleMixin {
   /// It uses an internal "callable" type, to avoid any @overrides in subclasses.
   /// This method should be internal and is required to define the
   /// lifetime cycle of the subclass.
-  // @protected
   @mustCallSuper
   @nonVirtual
   void onStart() {
-    // _checkIfAlreadyConfigured();
     if (_initialized) return;
     onInit();
     _initialized = true;
