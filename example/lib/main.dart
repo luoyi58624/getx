@@ -17,7 +17,7 @@ class MainApp extends StatelessWidget {
 }
 
 class MyController extends GetxController {
-  static MyController of = Get.find();
+  static MyController get of => Get.find();
   final count = 0.obs;
 }
 
@@ -71,7 +71,7 @@ class _ChildState extends State<Child> {
               onPressed: () {
                 controller.count.value++;
               },
-              child: Obx(()=>Text('count: ${controller.count.value}')),
+              child: Obx(() => Text('count: ${controller.count.value}')),
             ),
             ElevatedButton(
               onPressed: () {
@@ -101,9 +101,9 @@ class SecondChildPage extends StatelessWidget {
           children: [
             ElevatedButton(
               onPressed: () {
-                controller.count.value++;
+                MyController.of.count.value++;
               },
-              child: Obx(()=>Text('count: ${controller.count.value}')),
+              child: Obx(() => Text('count: ${MyController.of.count.value}')),
             ),
           ],
         ),
