@@ -90,8 +90,6 @@ mixin StateMixin<T> on ListNotifier {
 
 typedef FuturizeCallback<T> = Future<T> Function(VoidCallback fn);
 
-typedef VoidCallback = void Function();
-
 class GetListenable<T> extends ListNotifierSingle implements RxInterface<T> {
   GetListenable(T val) : _value = val;
 
