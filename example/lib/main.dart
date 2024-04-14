@@ -100,7 +100,8 @@ class SecondChildPage extends StatelessWidget {
         child: Column(
           children: [
             ElevatedButton(
-              onPressed: () {
+              onPressed: () async {
+                await 2.delay();
                 MyController.of.count.value++;
               },
               child: Obx(() => Text('count: ${MyController.of.count.value}')),
