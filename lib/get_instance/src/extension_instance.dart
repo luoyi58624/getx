@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 
 import '../../get_core/get_core.dart';
-import '../../get_navigation/src/router_report.dart';
 import 'lifecycle.dart';
 
 class InstanceInfo {
@@ -24,24 +23,6 @@ class InstanceInfo {
   @override
   String toString() {
     return 'InstanceInfo(isPermanent: $isPermanent, isSingleton: $isSingleton, isRegistered: $isRegistered, isPrepared: $isPrepared, isInit: $isInit)';
-  }
-}
-
-extension ResetInstance on GetInterface {
-  /// Clears all registered instances (and/or tags).
-  /// Even the persistent ones.
-  /// This should be used at the end or tearDown of unit tests.
-  ///
-  /// `clearFactory` clears the callbacks registered by [lazyPut]
-  /// `clearRouteBindings` clears Instances associated with routes.
-  ///
-  bool resetInstance({bool clearRouteBindings = true}) {
-    //  if (clearFactory) _factory.clear();
-    // deleteAll(force: true);
-    if (clearRouteBindings) RouterReportManager.instance.clearRouteKeys();
-    Inst._singl.clear();
-
-    return true;
   }
 }
 
@@ -198,13 +179,6 @@ extension Inst on GetInterface {
         _singl[key]!.isInit = true;
       }
       i = _startController<S>(tag: name);
-
-      if (isSingleton) {
-        if (Get.smartManagement != SmartManagement.onlyBuilder) {
-          RouterReportManager.instance
-              .reportDependencyLinkedToRoute(_getKey(S, name));
-        }
-      }
     }
     return i;
   }
@@ -252,9 +226,6 @@ extension Inst on GetInterface {
         Get.log('Instance "$S" has been initialized');
       } else {
         Get.log('Instance "$S" with tag "$tag" has been initialized');
-      }
-      if (!_singl[key]!.isSingleton!) {
-        RouterReportManager.instance.appendRouteByCreate(i);
       }
     }
     return i;
