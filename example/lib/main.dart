@@ -91,7 +91,6 @@ class SecondChildPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final MyController controller = Get.find();
     return Scaffold(
       appBar: AppBar(
         title: const Text('二级子页面'),
@@ -100,8 +99,7 @@ class SecondChildPage extends StatelessWidget {
         child: Column(
           children: [
             ElevatedButton(
-              onPressed: () async {
-                await 2.delay();
+              onPressed: () {
                 MyController.of.count.value++;
               },
               child: Obx(() => Text('count: ${MyController.of.count.value}')),

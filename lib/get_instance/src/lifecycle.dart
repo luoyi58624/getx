@@ -65,23 +65,4 @@ mixin GetLifeCycleMixin {
     _isClosed = true;
     onClose();
   }
-
-//   void _checkIfAlreadyConfigured() {
-//     if (_initialized) {
-//       throw """You can only call configureLifeCycle once.
-// The proper place to insert it is in your class's constructor
-// that inherits GetLifeCycle.""";
-//     }
-//   }
 }
-
-/// Allow track difference between GetxServices and GetxControllers
-mixin GetxServiceMixin {}
-
-/// Unlike GetxController, which serves to control events on each of its pages,
-/// GetxService is not automatically disposed (nor can be removed with
-/// Get.delete()).
-/// It is ideal for situations where, once started, that service will
-/// remain in memory, such as Auth control for example. Only way to remove
-/// it is Get.reset().
-abstract class GetxService with GetLifeCycleMixin, GetxServiceMixin {}
