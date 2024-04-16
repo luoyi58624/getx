@@ -28,9 +28,7 @@ mixin StateMixin<T> on ListNotifier {
   GetStatus<T>? _status;
 
   void _fillInitialStatus() {
-    _status = (_value == null || _value!._isEmpty())
-        ? GetStatus<T>.loading()
-        : GetStatus<T>.success(_value as T);
+    _status = (_value == null || _value!._isEmpty()) ? GetStatus<T>.loading() : GetStatus<T>.success(_value as T);
   }
 
   GetStatus<T> get status {
@@ -69,8 +67,7 @@ mixin StateMixin<T> on ListNotifier {
     }
   }
 
-  void futurize(Future<T> Function() body,
-      {T? initialData, String? errorMessage, bool useEmpty = true}) {
+  void futurize(Future<T> Function() body, {T? initialData, String? errorMessage, bool useEmpty = true}) {
     final compute = body;
     _value ??= initialData;
     compute().then((newValue) {
@@ -97,8 +94,7 @@ class GetListenable<T> extends ListNotifierSingle implements RxInterface<T> {
 
   StreamController<T> get subject {
     if (_controller == null) {
-      _controller =
-          StreamController<T>.broadcast(onCancel: addListener(_streamListener));
+      _controller = StreamController<T>.broadcast(onCancel: addListener(_streamListener));
       _controller?.add(_value);
 
       ///TODO: report to controller dispose
@@ -165,9 +161,7 @@ class GetListenable<T> extends ListNotifierSingle implements RxInterface<T> {
   String toString() => value.toString();
 }
 
-class Value<T> extends ListNotifier
-    with StateMixin<T>
-    implements ValueListenable<T?> {
+class Value<T> extends ListNotifier with StateMixin<T> implements ValueListenable<T?> {
   Value(T val) {
     _value = val;
     _fillInitialStatus();
@@ -226,13 +220,11 @@ extension StateExt<T> on StateMixin<T> {
             ? onError(status.errorMessage)
             : Center(child: Text('A error occurred: ${status.errorMessage}'));
       } else if (status.isEmpty) {
-        return onEmpty ??
-            const SizedBox.shrink(); // Also can be widget(null); but is risky
+        return onEmpty ?? const SizedBox.shrink(); // Also can be widget(null); but is risky
       } else if (status.isSuccess) {
         return widget(value);
       } else if (status.isCustom) {
-        return onCustom?.call(_) ??
-            const SizedBox.shrink(); // Also can be widget(null); but is risky
+        return onCustom?.call(_) ?? const SizedBox.shrink(); // Also can be widget(null); but is risky
       }
       return widget(value);
     });

@@ -9,8 +9,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  get:
-    path: ..
+  get: ^4.6.5
+#    path: ..
 
 dev_dependencies:
   flutter_test:

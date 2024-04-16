@@ -9,8 +9,7 @@ typedef Disposer = void Function();
 // if it brings overhead the extra call,
 typedef GetStateUpdate = void Function();
 
-class ListNotifier extends Listenable
-    with ListNotifierSingleMixin, ListNotifierGroupMixin {}
+class ListNotifier extends Listenable with ListNotifierSingleMixin, ListNotifierGroupMixin {}
 
 /// A Notifier with single listeners
 class ListNotifierSingle = ListNotifier with ListNotifierSingleMixin;
@@ -22,9 +21,6 @@ class ListNotifierGroup = ListNotifier with ListNotifierGroupMixin;
 /// containsListener implementation
 mixin ListNotifierSingleMixin on Listenable {
   List<GetStateUpdate>? _updaters = <GetStateUpdate>[];
-
-  // final int _version = 0;
-  // final int _microtaskVersion = 0;
 
   @override
   Disposer addListener(GetStateUpdate listener) {
@@ -43,7 +39,6 @@ mixin ListNotifierSingleMixin on Listenable {
     _updaters!.remove(listener);
   }
 
-  @protected
   void refresh() {
     assert(_debugAssertNotDisposed());
     _notifyUpdate();
@@ -60,18 +55,11 @@ mixin ListNotifierSingleMixin on Listenable {
   }
 
   void _notifyUpdate() {
-    // if (_microtaskVersion == _version) {
-    //   _microtaskVersion++;
-    //   scheduleMicrotask(() {
-    //     _version++;
-    //     _microtaskVersion = _version;
     final list = _updaters?.toList() ?? [];
 
     for (var element in list) {
       element();
     }
-    //   });
-    // }
   }
 
   bool get isDisposed => _updaters == null;
@@ -100,8 +88,7 @@ mixin ListNotifierSingleMixin on Listenable {
 }
 
 mixin ListNotifierGroupMixin on Listenable {
-  HashMap<Object?, ListNotifierSingleMixin>? _updatersGroupIds =
-      HashMap<Object?, ListNotifierSingleMixin>();
+  HashMap<Object?, ListNotifierSingleMixin>? _updatersGroupIds = HashMap<Object?, ListNotifierSingleMixin>();
 
   void _notifyGroupUpdate(Object id) {
     if (_updatersGroupIds!.containsKey(id)) {
@@ -196,10 +183,7 @@ class Notifier {
 }
 
 class NotifyData {
-  const NotifyData(
-      {required this.updater,
-      required this.disposers,
-      this.throwException = true});
+  const NotifyData({required this.updater, required this.disposers, this.throwException = true});
   final GetStateUpdate updater;
   final List<VoidCallback> disposers;
   final bool throwException;

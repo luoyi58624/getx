@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -16,9 +18,16 @@ class MainApp extends StatelessWidget {
   }
 }
 
+class User {
+  User(this.age);
+
+  int age;
+}
+
 class MyController extends GetxController {
   static MyController get of => Get.find();
   final count = 0.obs;
+  final demoList = [User(10)].obs;
 }
 
 class HomePage extends StatelessWidget {
@@ -41,7 +50,7 @@ class HomePage extends StatelessWidget {
             ),
             ElevatedButton(
               onPressed: () {
-                Get.log(GetUtils.camelCase('xx dee')??'');
+                Get.log(GetUtils.camelCase('xx dee') ?? '');
               },
               child: const Text('demo'),
             ),
@@ -82,6 +91,14 @@ class _ChildState extends State<Child> {
                 controller.count.value++;
               },
               child: Obx(() => Text('count: ${controller.count.value}')),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                controller.demoList.value[0] = User(Random().nextInt(10000));
+                // controller.demoList.refresh();
+                // TabScaffoldController.of.demoList.refresh();
+              },
+              child: Obx(() => Text('demoList: ${controller.demoList[0].age} ')),
             ),
             ElevatedButton(
               onPressed: () {
