@@ -1,7 +1,3 @@
-import 'dart:async';
-
-import 'package:flutter/material.dart';
-
 import '../../get_core/get_core.dart';
 import 'lifecycle.dart';
 

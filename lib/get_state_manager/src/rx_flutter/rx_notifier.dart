@@ -204,33 +204,6 @@ abstract class GetNotifier<T> extends Value<T> with GetLifeCycleMixin {
   GetNotifier(T initial) : super(initial);
 }
 
-extension StateExt<T> on StateMixin<T> {
-  Widget obx(
-    NotifierBuilder<T?> widget, {
-    Widget Function(String? error)? onError,
-    Widget? onLoading,
-    Widget? onEmpty,
-    WidgetBuilder? onCustom,
-  }) {
-    return Observer(builder: (_) {
-      if (status.isLoading) {
-        return onLoading ?? const Center(child: CircularProgressIndicator());
-      } else if (status.isError) {
-        return onError != null
-            ? onError(status.errorMessage)
-            : Center(child: Text('A error occurred: ${status.errorMessage}'));
-      } else if (status.isEmpty) {
-        return onEmpty ?? const SizedBox.shrink(); // Also can be widget(null); but is risky
-      } else if (status.isSuccess) {
-        return widget(value);
-      } else if (status.isCustom) {
-        return onCustom?.call(_) ?? const SizedBox.shrink(); // Also can be widget(null); but is risky
-      }
-      return widget(value);
-    });
-  }
-}
-
 typedef NotifierBuilder<T> = Widget Function(T state);
 
 abstract class GetStatus<T> with GetxEquality {

@@ -35,24 +35,16 @@ bool _hasLength(dynamic value) {
 ///
 /// Note 3: null [value] returns null.
 int? _obtainDynamicLength(dynamic value) {
-  if (value == null) {
-    // ignore: avoid_returning_null
-    return null;
-  }
-
+  if (value == null) return null;
   if (_hasLength(value)) {
     return value.length as int?;
   }
-
   if (value is int) {
     return value.toString().length;
   }
-
   if (value is double) {
     return value.toString().replaceAll('.', '').length;
   }
-
-  // ignore: avoid_returning_null
   return null;
 }
 
@@ -525,6 +517,7 @@ class GetUtils {
   /// credits to "ReCase" package.
   static final RegExp _upperAlphaRegex = RegExp(r'[A-Z]');
   static final _symbolSet = {' ', '.', '/', '_', '\\', '-'};
+
   static List<String> _groupIntoWords(String text) {
     var sb = StringBuffer();
     var words = <String>[];

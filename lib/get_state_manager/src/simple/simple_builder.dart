@@ -6,16 +6,6 @@ import 'list_notifier.dart';
 
 class ObxElement = StatelessElement with StatelessObserverComponent;
 
-// It's a experimental feature
-class Observer extends ObxStatelessWidget {
-  final WidgetBuilder builder;
-
-  const Observer({Key? key, required this.builder}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) => builder(context);
-}
-
 /// A StatelessWidget than can listen reactive changes.
 abstract class ObxStatelessWidget extends StatelessWidget {
   /// Initializes [key] for subclasses.
@@ -29,9 +19,6 @@ mixin StatelessObserverComponent on StatelessElement {
   List<Disposer>? disposers = <Disposer>[];
 
   void getUpdate() {
-    // if (disposers != null && !dirty) {
-    //   markNeedsBuild();
-    // }
     if (disposers != null) {
       scheduleMicrotask(markNeedsBuild);
     }
