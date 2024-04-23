@@ -69,7 +69,7 @@ class Child extends StatefulWidget {
 }
 
 class _ChildState extends State<Child> {
-  MyController controller = Get.put(MyController());
+  MyController controller = Get.put(MyController(), enabledLog: true);
 
   @override
   void dispose() {

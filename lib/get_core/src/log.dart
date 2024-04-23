@@ -1,10 +1,11 @@
 import 'dart:developer' as developer;
-import 'get_main.dart';
+
+import 'package:flutter/foundation.dart';
 
 ///VoidCallback from logs
-typedef LogWriterCallback = void Function(String text, {bool isError});
+typedef LogWriterCallback = void Function(String text, {bool enabledLog});
 
 /// default logger from GetX
-void defaultLogWriterCallback(String value, {bool isError = false}) {
-  if (isError || Get.isLogEnable) developer.log(value, name: 'GETX');
+void defaultLogWriterCallback(String value, {bool enabledLog = true}) {
+  if (enabledLog && kDebugMode) developer.log(value, name: 'GETX');
 }
