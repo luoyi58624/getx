@@ -9,6 +9,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+#  get: ^4.6.6
+#  get: ^5.0.0-release-candidate-5
   get:
     path: ..
 

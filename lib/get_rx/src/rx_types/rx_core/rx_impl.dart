@@ -99,10 +99,13 @@ mixin RxObjectMixin<T> on GetListenable<T> {
   @override
   set value(T val) {
     if (isDisposed) return;
+    print(value == val);
+    print(!firstRebuild);
     sentToStream = false;
     if (value == val && !firstRebuild) return;
     firstRebuild = false;
     sentToStream = true;
+    print('xxx');
     super.value = val;
   }
 
@@ -169,6 +172,7 @@ abstract class _RxImpl<T> extends GetListenable<T> with RxObjectMixin<T> {
   /// ```
   void update(T Function(T? val) fn) {
     value = fn(value);
+    // refresh();
     // subject.add(value);
   }
 
@@ -210,6 +214,7 @@ abstract class _RxImpl<T> extends GetListenable<T> with RxObjectMixin<T> {
 
 class RxBool extends Rx<bool> {
   RxBool(bool initial) : super(initial);
+
   @override
   String toString() {
     return value ? "true" : "false";
@@ -218,6 +223,7 @@ class RxBool extends Rx<bool> {
 
 class RxnBool extends Rx<bool?> {
   RxnBool([bool? initial]) : super(initial);
+
   @override
   String toString() {
     return "$value";
