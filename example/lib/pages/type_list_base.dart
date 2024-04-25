@@ -4,11 +4,8 @@ import 'package:get/get.dart';
 class Controller extends GetxController {
   final list = [1, 2, 3].obs;
 
-  /// 清空数据，之所以list可以不用加.value，是因为getx做了拦截，基础类型没法拦截所以必须添加.value
+  /// 清空数据
   clear() => list.clear();
-
-  // 你也可以直接操作.value
-  // clear() => list.value = [];
 
   /// 添加数据
   add(int value) => list.add(value);

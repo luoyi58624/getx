@@ -20,19 +20,16 @@ class Controller extends GetxController {
 
   updateModel() => model.value = User(name: 'hihi', age: Random().nextInt(100));
 
-  /// 更新单个属性，需要调用 refresh 手动刷新
+  /// 更新对象单个属性，手动调用 refresh 刷新
   updateName() {
     model.value.name = model.value.name == 'hello' ? 'hihi' : 'hello';
     model.refresh();
   }
 
-  /// 利用getx提供的[update]方法更新对象
+  /// 更新对象单个属性，利用getx提供的[update]方法更新
   updateAge() {
-    // model.value.age++;
-    // model.refresh();
     model.update((user) {
-      user!.age += 10;
-      return user;
+      user.age += 10;
     });
   }
 }

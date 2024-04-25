@@ -103,7 +103,7 @@ class Child extends StatelessWidget {
 
 # 操作各种类型的响应式变量
 
-- 基础响应式变量
+- 基础类型
 ```dart
 class Controller extends GetxController {
   final intType = 0.obs;
@@ -144,27 +144,22 @@ void page(){
 }
 ```
 
-- Map响应式变量
+- Map类型
 ```dart
 class Controller extends GetxController {
-  final mapType = <String, dynamic>{'name': 'hihi', 'age': 20}.obs;
+  final map = <String, dynamic>{'name': 'hihi', 'age': 20}.obs;
 
-  /// 更新整个Map对象
-  updateMapType() => mapType.value = {'name': 'eeee', 'age': 0};
+  /// 通过.value更新Map整个对象
+  updateList() => map.value = {'name': 'eeee', 'age': 0};
 
-  /// 更新单个Map属性
-  updateMapName() {
-    mapType.update('name', (value) => value == 'hihi' ? 'hello' : 'hihi');
+  /// 通过update更新单个属性
+  updateName() {
+    map.update('name', (value) => value == 'hihi' ? 'hello' : 'hihi');
   }
 
-  updateMapAge() {
-    // 你可以value + 1、value += 1、++value，就是不能value++
-    mapType.update('age', (value) => ++value); 
-  }
-
-  /// 经过实测，Map响应式对象可以像原始Map一样，直接通过key修改value，这样也可以自动更新页面
-  updateMapAge2() {
-    mapType['age'] = 1000;
+  /// 通过key直接修改value，getx对最外面一层修改做了拦截
+  updateAge() {
+    map['age']++;
   }
 }
 
@@ -172,108 +167,279 @@ void page(){
   Column(
     children: [
       ElevatedButton(
-        onPressed: c.updateMapType,
-        child: Obx(() => Text('map type: ${c.mapType}')),
+        onPressed: c.updateList,
+        child: Obx(() => Text('update map: ${c.map}')),
       ),
       ElevatedButton(
-        onPressed: c.updateMapName,
-        child: Obx(() => Text('update map name: ${c.mapType}')),
+        onPressed: c.updateName,
+        child: Obx(() => Text('update map name: ${c.map}')),
       ),
       ElevatedButton(
-        onPressed: c.updateMapAge,
-        onLongPress: c.updateMapAge2,
-        child: Obx(() => Text('update map age: ${c.mapType}')),
+        onPressed: c.updateAge,
+        child: Obx(() => Text('update map age: ${c.map}')),
       ),
     ],
   );
 }
 ```
 
-- List响应式变量(基础类型)
+- 嵌套Map类型
+- Getx只做了一层拦截，你如果修改深层嵌套属性，则必须手动调用refresh来触发页面刷新
+- 此逻辑同样适用于List<Model>、List<Map>，凡是深层变量更新你都必须手动刷新
 ```dart
 class Controller extends GetxController {
-  final listType = [1, 2, 3].obs;
+  /// 嵌套map
+  final nestMap = <String, Map<String, dynamic>>{
+    '001': {'name': 'hihi', 'age': 20},
+    '002': {'name': 'dada', 'age': 18},
+  }.obs;
 
-  /// 清空数据，之所以list可以不用加.value，是因为getx做了拦截，基础类型没法拦截所以必须添加.value
-  clearListType() => listType.clear();
-  // 你也可以直接操作.value
-  // clearListType() => listType.value = [];
-  
-  /// 添加数据
-  addListType(int value) => listType.add(value);
+  /// 原理和上面基础Map的[updateAge]一样，getx对最外面一层做了拦截
+  updateNestMap(String key) => nestMap[key] = {'name': 'eeee', 'age': Random().nextInt(100)};
 
-  /// 更新指定下标数据
-  updateListType(int index) => listType[index]++;
-}
+  /// 更新嵌套Map中的单个属性，你必须手动调用refresh方法进行刷新，因为getx仅做了一层拦截
+  updateNestFirstMapName() {
+    final key = nestMap.keys.first;
+    nestMap[key]!['name'] = nestMap[key]!['name'] == 'hihi' ? 'hello' : 'hihi';
+    nestMap.refresh();
+  }
 
-void page() {
-  IconButton(
-    onPressed: () {
-      c.addListType(c.listType.length + 1);
-    },
-    icon: const Icon(Icons.add),
-  );
-  Obx(() =>
-      ListView.builder(
-        itemCount: c.listType.length,
-        itemBuilder: (context, i) =>
-            ListTile(
-              onTap: () {
-                c.updateListType(i);
-              },
-              title: Text(c.listType[i].toString()),
-            ),
-      ));
-}
-```
-
-- List响应式变量(Map类型)
-```dart
-class Controller extends GetxController {
-  final listMapType = <Map<String, dynamic>>[
-    {'name': 'hihi', 'age': 20}
-  ].obs;
-
-  /// 清空数据
-  clearListMapType() => listMapType.clear();
-
-  /// 添加数据
-  addListMapType() => listMapType.add({'name': 'hihi', 'age': 20});
-
-  /// 更新指定下标数据
-  updateListMapType(int index) => listMapType[index] = {'name': 'hello', 'age': 100};
-
-  /// 更新指定下标Map对象的部分数据
-  partListMapType(int index) => listMapType[index] = {...listMapType[index], 'age': 1000};
-
-  /// 注意：此处有一个坑，直接操作列表对象的内部属性是不会生效的，因为getx仅仅对list做拦截，它拦截不到Map对象内部属性，
-  /// 若你直接这样操作，那么你必须手动调用[refresh]函数才能刷新页面。
-  /// 
-  /// 实际原理是，你当前操作的[]运算符是getx重写的，dart允许你对一些运算符重写，它有一个关键字：[operator]，
-  /// listMapType[index]赋值之所以能生效，是因为getx通过[operator]重写了 "[]=" 运算符，当你设置新的值后会在内部调用[refresh]函数
-  partListMapType2(int index) {
-    listMapType[index]['age'] = 1000;
-    listMapType.refresh();
+  /// 更新最后一条Map的age
+  updateNestLastMapAge() {
+    final key = nestMap.keys.last;
+    nestMap[key]!['age']++;
+    nestMap.refresh();
   }
 }
 
 void page() {
-  IconButton(
-    onPressed: () {
-      c.addListType(c.listType.length + 1);
-    },
-    icon: const Icon(Icons.add),
-  );
-  Obx(() =>
-      ListView.builder(
-        itemCount: c.listType.length,
-        itemBuilder: (context, i) =>
-            ListTile(
-              onTap: () {
-                c.updateListType(i);
-              },
-              title: Text(c.listType[i].toString()),
+  Column(
+    children: [
+      Obx(
+            () =>
+            Column(
+              mainAxisSize: MainAxisSize.min,
+              children: c.nestMap.values.map((v) => Text(v.toString())).toList(),
             ),
-      ));
+      ),
+      ElevatedButton(
+        onPressed: () {
+          c.updateNestMap(c.nestMap.keys.first);
+        },
+        child: const Text('update first nest map'),
+      ),
+      ElevatedButton(
+        onPressed: () {
+          c.updateNestFirstMapName();
+        },
+        child: const Text('update first nest map name'),
+      ),
+      ElevatedButton(
+        onPressed: () {
+          c.updateNestLastMapAge();
+        },
+        child: const Text('update last nest map age'),
+      ),
+    ],
+  );
+}
+```
+
+- List类型(基础类型)
+```dart
+class Controller extends GetxController {
+  final list = [1, 2, 3].obs;
+
+  /// 清空数据
+  clear() => list.clear();
+
+  /// 添加数据
+  add(int value) => list.add(value);
+
+  /// 更新指定下标数据
+  updateList(int index) => list[index]++;
+}
+
+void page() {
+  Scaffold(
+    appBar: AppBar(
+      title: const Text('响应式List - 基础类型'),
+      actions: [
+        IconButton(
+          onPressed: () {
+            c.add(c.list.length + 1);
+          },
+          icon: const Icon(Icons.add),
+        ),
+        IconButton(
+          onPressed: () {
+            c.clear();
+          },
+          icon: const Icon(Icons.delete),
+        ),
+      ],
+    ),
+    body: Obx(
+          () =>
+          ListView.builder(
+            itemCount: c.list.length,
+            itemBuilder: (context, i) =>
+                ListTile(
+                  onTap: () {
+                    c.updateList(i);
+                  },
+                  title: Text(c.list[i].toString()),
+                ),
+          ),
+    ),
+  );
+}
+```
+
+- List类型(Map类型)
+```dart
+class Controller extends GetxController {
+  final list = <Map<String, dynamic>>[
+    {'name': 'hihi', 'age': 20}
+  ].obs;
+
+  /// 清空数据
+  clear() => list.clear();
+
+  /// 添加数据
+  add() => list.add({'name': 'hihi', 'age': 20});
+
+  /// 更新指定下标数据
+  updateList(int index) => list[index] = {'name': 'hello', 'age': 100};
+
+  /// 更新指定下标Map对象的部分数据
+  part(int index) => list[index] = {...list[index], 'age': 1000};
+
+  /// 直接修改内部属性，需要调用refresh手动刷新页面
+  part2(int index) {
+    list[index]['age'] = 1000;
+    list.refresh();
+  }
+}
+
+void page() {
+  Scaffold(
+    appBar: AppBar(
+      title: const Text('响应式List - Map类型'),
+      actions: [
+        IconButton(
+          onPressed: () {
+            c.add();
+          },
+          icon: const Icon(Icons.add),
+        ),
+        IconButton(
+          onPressed: () {
+            c.clear();
+          },
+          icon: const Icon(Icons.delete),
+        ),
+      ],
+    ),
+    body: Obx(
+          () =>
+          ListView.builder(
+            itemCount: c.list.length,
+            itemBuilder: (context, i) =>
+                ListTile(
+                  onTap: () {
+                    c.updateList(i);
+                  },
+                  onLongPress: () {
+                    c.part2(i);
+                  },
+                  title: Text(c.list[i].toString()),
+                ),
+          ),
+    ),
+  );
+}
+```
+
+- List类型(Model类型)
+```dart
+class User {
+  User({required this.name, required this.age});
+
+  String name;
+  int age;
+
+  User copyWith({
+    String? name,
+    int? age,
+  }) {
+    return User(
+      name: name ?? this.name,
+      age: age ?? this.age,
+    );
+  }
+
+  @override
+  String toString() {
+    return 'User{name: $name, age: $age}';
+  }
+}
+
+class Controller extends GetxController {
+  final list = <User>[
+    User(name: 'hihi', age: 20),
+  ].obs;
+
+  clear() => list.clear();
+
+  add() => list.add(User(name: 'hihi', age: 20));
+
+  updateList(int index) => list[index] = User(name: 'hihi', age: list[index].age + 1);
+
+  part(int index) => list[index] = list[index].copyWith(age: 1000);
+
+  /// 原理一样，直接修改内部属性需要手动刷新
+  part2(int index) {
+    list[index].age = 1000;
+    list.refresh();
+  }
+}
+
+void page() {
+  Scaffold(
+    appBar: AppBar(
+      title: const Text('响应式List - Model类型'),
+      actions: [
+        IconButton(
+          onPressed: () {
+            c.add();
+          },
+          icon: const Icon(Icons.add),
+        ),
+        IconButton(
+          onPressed: () {
+            c.clear();
+          },
+          icon: const Icon(Icons.delete),
+        ),
+      ],
+    ),
+    body: Obx(
+          () =>
+          ListView.builder(
+            itemCount: c.list.length,
+            itemBuilder: (context, i) =>
+                ListTile(
+                  onTap: () {
+                    c.updateList(i);
+                  },
+                  onLongPress: () {
+                    c.part2(i);
+                  },
+                  title: Text(c.list[i].toString()),
+                ),
+          ),
+    ),
+  );
 }
 ```

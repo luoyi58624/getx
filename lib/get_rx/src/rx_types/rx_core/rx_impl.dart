@@ -99,13 +99,10 @@ mixin RxObjectMixin<T> on GetListenable<T> {
   @override
   set value(T val) {
     if (isDisposed) return;
-    print(value == val);
-    print(!firstRebuild);
     sentToStream = false;
     if (value == val && !firstRebuild) return;
     firstRebuild = false;
     sentToStream = true;
-    print('xxx');
     super.value = val;
   }
 
@@ -170,10 +167,9 @@ abstract class _RxImpl<T> extends GetListenable<T> with RxObjectMixin<T> {
   /// });
   /// print( person );
   /// ```
-  void update(T Function(T? val) fn) {
-    value = fn(value);
-    // refresh();
-    // subject.add(value);
+  void update(void Function(T val) fn) {
+    fn(value);
+    refresh();
   }
 
   /// Following certain practices on Rx data, we might want to react to certain

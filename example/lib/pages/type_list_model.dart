@@ -36,7 +36,7 @@ class Controller extends GetxController {
 
   part(int index) => list[index] = list[index].copyWith(age: 1000);
 
-  /// 原理和List<Map>一样
+  /// 原理一样，直接修改内部属性需要手动刷新
   part2(int index) {
     list[index].age = 1000;
     list.refresh();
@@ -63,7 +63,7 @@ class _TypePageState extends State<TypeListModelPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('响应式List - Map类型'),
+        title: const Text('响应式List - Model类型'),
         actions: [
           IconButton(
             onPressed: () {

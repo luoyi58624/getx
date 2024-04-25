@@ -18,11 +18,7 @@ class Controller extends GetxController {
   /// 更新指定下标Map对象的部分数据
   part(int index) => list[index] = {...list[index], 'age': 1000};
 
-  /// 注意：此处有一个坑，直接操作列表对象的内部属性是不会生效的，因为getx仅仅对list做拦截，它没有拦截Map对象内部属性，
-  /// 若你直接这样操作，那么你必须手动调用[refresh]函数才能刷新页面。
-  ///
-  /// 实际原理是，你当前操作的[]运算符是getx重写的，dart允许你对一些运算符重写，它有一个关键字：[operator]，
-  /// list[index]赋值之所以能生效，是因为getx通过[operator]重写了 "[]=" 运算符，当你设置新的值后会在内部调用[refresh]函数
+  /// 直接修改内部属性，需要调用refresh手动刷新页面
   part2(int index) {
     list[index]['age'] = 1000;
     list.refresh();
