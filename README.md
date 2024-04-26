@@ -203,7 +203,7 @@ void page() {
 
 - 嵌套Map类型
 - Getx只做了一层拦截，你如果修改深层嵌套属性，则必须手动调用refresh来触发页面刷新
-- 此逻辑同样适用于List<Model>、List<Map>，凡是深层变量更新你都必须手动刷新
+- 此逻辑同样适用于List，凡是深层变量更新你都必须手动刷新
 
 ```dart
 class Controller extends GetxController {
