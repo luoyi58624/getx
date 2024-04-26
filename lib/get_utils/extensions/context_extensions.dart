@@ -1,6 +1,6 @@
 part of get;
 
-extension ContextExt on BuildContext {
+extension GetContextExt on BuildContext {
   /// The same of [MediaQuery.sizeOf(context)]
   Size get mediaQuerySize => MediaQuery.sizeOf(this);
 

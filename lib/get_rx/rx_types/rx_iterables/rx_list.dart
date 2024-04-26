@@ -1,7 +1,7 @@
 part of get;
 
 /// Create a list similar to `List<T>`
-class RxList<E> extends GetListenable<List<E>> with ListMixin<E>, RxObjectMixin<List<E>> {
+class RxList<E> extends _GetListenable<List<E>> with ListMixin<E>, RxObjectMixin<List<E>> {
   RxList([List<E> initial = const []]) : super(initial);
 
   factory RxList.filled(int length, E fill, {bool growable = false}) {

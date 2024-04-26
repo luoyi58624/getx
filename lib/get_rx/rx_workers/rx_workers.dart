@@ -54,7 +54,7 @@ class Workers {
 /// }
 /// ```
 Worker ever<T>(
-  GetListenable<T> listener,
+  _GetListenable<T> listener,
   WorkerCallback<T> callback, {
   dynamic condition = true,
   Function? onError,
@@ -128,7 +128,7 @@ Worker everAll(
 /// }
 ///```
 Worker once<T>(
-  GetListenable<T> listener,
+  _GetListenable<T> listener,
   WorkerCallback<T> callback, {
   dynamic condition = true,
   Function? onError,
@@ -171,7 +171,7 @@ Worker once<T>(
 /// );
 /// ```
 Worker interval<T>(
-  GetListenable<T> listener,
+  _GetListenable<T> listener,
   WorkerCallback<T> callback, {
   Duration time = const Duration(seconds: 1),
   dynamic condition = true,
@@ -215,7 +215,7 @@ Worker interval<T>(
 ///  }
 ///  ```
 Worker debounce<T>(
-  GetListenable<T> listener,
+  _GetListenable<T> listener,
   WorkerCallback<T> callback, {
   Duration? time,
   Function? onError,

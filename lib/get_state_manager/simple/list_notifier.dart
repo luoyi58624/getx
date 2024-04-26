@@ -1,33 +1,33 @@
 part of get;
 
 // This callback remove the listener on addListener function
-typedef Disposer = void Function();
+typedef _Disposer = void Function();
 
 // replacing StateSetter, return if the Widget is mounted for extra validation.
 // if it brings overhead the extra call,
-typedef GetStateUpdate = void Function();
+typedef _GetStateUpdate = void Function();
 
-class ListNotifier extends Listenable with ListNotifierSingleMixin, ListNotifierGroupMixin {}
+class _ListNotifier extends Listenable with _ListNotifierSingleMixin, _ListNotifierGroupMixin {}
 
-/// A Notifier with single listeners
-class ListNotifierSingle = ListNotifier with ListNotifierSingleMixin;
+/// A _Notifier with single listeners
+class _ListNotifierSingle = _ListNotifier with _ListNotifierSingleMixin;
 
 /// A notifier with group of listeners identified by id
-class ListNotifierGroup = ListNotifier with ListNotifierGroupMixin;
+class _ListNotifierGroup = _ListNotifier with _ListNotifierGroupMixin;
 
 /// This mixin add to Listenable the addListener, removerListener and
 /// containsListener implementation
-mixin ListNotifierSingleMixin on Listenable {
-  List<GetStateUpdate>? _updaters = <GetStateUpdate>[];
+mixin _ListNotifierSingleMixin on Listenable {
+  List<_GetStateUpdate>? _updaters = <_GetStateUpdate>[];
 
   @override
-  Disposer addListener(GetStateUpdate listener) {
+  _Disposer addListener(_GetStateUpdate listener) {
     assert(_debugAssertNotDisposed());
     _updaters!.add(listener);
     return () => _updaters!.remove(listener);
   }
 
-  bool containsListener(GetStateUpdate listener) {
+  bool containsListener(_GetStateUpdate listener) {
     return _updaters?.contains(listener) ?? false;
   }
 
@@ -44,12 +44,12 @@ mixin ListNotifierSingleMixin on Listenable {
 
   @protected
   void reportRead() {
-    Notifier.instance.read(this);
+    _Notifier.instance.read(this);
   }
 
   @protected
   void reportAdd(VoidCallback disposer) {
-    Notifier.instance.add(disposer);
+    _Notifier.instance.add(disposer);
   }
 
   void _notifyUpdate() {
@@ -85,8 +85,8 @@ mixin ListNotifierSingleMixin on Listenable {
   }
 }
 
-mixin ListNotifierGroupMixin on Listenable {
-  HashMap<Object?, ListNotifierSingleMixin>? _updatersGroupIds = HashMap<Object?, ListNotifierSingleMixin>();
+mixin _ListNotifierGroupMixin on Listenable {
+  HashMap<Object?, _ListNotifierSingleMixin>? _updatersGroupIds = HashMap<Object?, _ListNotifierSingleMixin>();
 
   void _notifyGroupUpdate(Object id) {
     if (_updatersGroupIds!.containsKey(id)) {
@@ -97,7 +97,7 @@ mixin ListNotifierGroupMixin on Listenable {
   @protected
   void notifyGroupChildrens(Object id) {
     assert(_debugAssertNotDisposed());
-    Notifier.instance.read(_updatersGroupIds![id]!);
+    _Notifier.instance.read(_updatersGroupIds![id]!);
   }
 
   bool containsId(Object id) {
@@ -135,8 +135,8 @@ mixin ListNotifierGroupMixin on Listenable {
     _updatersGroupIds = null;
   }
 
-  Disposer addListenerId(Object? key, GetStateUpdate listener) {
-    _updatersGroupIds![key] ??= ListNotifierSingle();
+  _Disposer addListenerId(Object? key, _GetStateUpdate listener) {
+    _updatersGroupIds![key] ??= _ListNotifierSingle();
     return _updatersGroupIds![key]!.addListener(listener);
   }
 
@@ -149,19 +149,19 @@ mixin ListNotifierGroupMixin on Listenable {
   }
 }
 
-class Notifier {
-  Notifier._();
+class _Notifier {
+  _Notifier._();
 
-  static Notifier? _instance;
-  static Notifier get instance => _instance ??= Notifier._();
+  static _Notifier? _instance;
+  static _Notifier get instance => _instance ??= _Notifier._();
 
-  NotifyData? _notifyData;
+  _NotifyData? _notifyData;
 
   void add(VoidCallback listener) {
     _notifyData?.disposers.add(listener);
   }
 
-  void read(ListNotifierSingleMixin updaters) {
+  void read(_ListNotifierSingleMixin updaters) {
     final listener = _notifyData?.updater;
     if (listener != null && !updaters.containsListener(listener)) {
       updaters.addListener(listener);
@@ -169,26 +169,26 @@ class Notifier {
     }
   }
 
-  T append<T>(NotifyData data, T Function() builder) {
+  T append<T>(_NotifyData data, T Function() builder) {
     _notifyData = data;
     final result = builder();
     if (data.disposers.isEmpty && data.throwException) {
-      throw const ObxError();
+      throw const _ObxError();
     }
     _notifyData = null;
     return result;
   }
 }
 
-class NotifyData {
-  const NotifyData({required this.updater, required this.disposers, this.throwException = true});
-  final GetStateUpdate updater;
+class _NotifyData {
+  const _NotifyData({required this.updater, required this.disposers, this.throwException = true});
+  final _GetStateUpdate updater;
   final List<VoidCallback> disposers;
   final bool throwException;
 }
 
-class ObxError {
-  const ObxError();
+class _ObxError {
+  const _ObxError();
   @override
   String toString() {
     return """

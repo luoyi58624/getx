@@ -1,41 +1,17 @@
 part of get;
 
-class InstanceInfo {
-  final bool? isSingleton;
-
-  bool get isCreate => !isSingleton!;
-  final bool isRegistered;
-  final bool isPrepared;
-  final bool? isInit;
-
-  const InstanceInfo({
-    required this.isSingleton,
-    required this.isRegistered,
-    required this.isPrepared,
-    required this.isInit,
-  });
-
-  @override
-  String toString() {
-    return 'InstanceInfo(isSingleton: $isSingleton, isRegistered: $isRegistered, isPrepared: $isPrepared, isInit: $isInit)';
-  }
-}
-
 extension Inst on GetInterface {
-  T call<T>() => find<T>();
-
   /// Holds references to every registered Instance when using
   /// `Get.put()`
   static final Map<String, _InstanceBuilderFactory> _singl = {};
 
-  /// 注入控制器
   S put<S>(
     S dependency, {
     String? tag,
-    bool enabledLog = true,
+    bool showLog = true,
   }) {
-    _insert(isSingleton: true, name: tag, enabledLog: enabledLog, builder: (() => dependency));
-    return find<S>(tag: tag, enabledLog: enabledLog);
+    _insert(isSingleton: true, name: tag, showLog: showLog, builder: (() => dependency));
+    return find<S>(tag: tag, showLog: showLog);
   }
 
   /// Injects the Instance [S] builder into the `_singleton` HashMap.
@@ -44,7 +20,7 @@ extension Inst on GetInterface {
     String? name,
     required InstanceBuilderCallback<S> builder,
     bool fenix = false,
-    bool enabledLog = true,
+    bool showLog = true,
   }) {
     final key = _getKey(S, name);
 
@@ -63,7 +39,7 @@ extension Inst on GetInterface {
       isInit: false,
       tag: name,
       lateRemove: dep,
-      enabledLog: enabledLog,
+      showLog: showLog,
     );
   }
 
@@ -76,7 +52,7 @@ extension Inst on GetInterface {
   /// (not for Singletons access).
   /// Returns the instance if not initialized, required for Get.create() to
   /// work properly.
-  S? _initDependencies<S>({String? name, required bool enabledLog}) {
+  S? _initDependencies<S>({String? name, required bool showLog}) {
     final key = _getKey(S, name);
     final isInit = _singl[key]!.isInit;
     S? i;
@@ -85,20 +61,9 @@ extension Inst on GetInterface {
       if (isSingleton) {
         _singl[key]!.isInit = true;
       }
-      i = _startController<S>(tag: name, enabledLog: enabledLog);
+      i = _startController<S>(tag: name, showLog: showLog);
     }
     return i;
-  }
-
-  InstanceInfo getInstanceInfo<S>({String? tag}) {
-    final build = _getDependency<S>(tag: tag);
-
-    return InstanceInfo(
-      isSingleton: build?.isSingleton,
-      isRegistered: isRegistered<S>(tag: tag),
-      isPrepared: !(build?.isInit ?? true),
-      isInit: build?.isInit,
-    );
   }
 
   _InstanceBuilderFactory? _getDependency<S>({String? tag, String? key}) {
@@ -112,36 +77,27 @@ extension Inst on GetInterface {
     }
   }
 
-  void markAsDirty<S>({String? tag, String? key}) {
-    final newKey = key ?? _getKey(S, tag);
-    if (_singl.containsKey(newKey)) {
-      final dep = _singl[newKey];
-      if (dep != null) {
-        dep.isDirty = true;
-      }
-    }
-  }
-
   /// Initializes the controller
-  S _startController<S>({String? tag, required bool enabledLog}) {
+  S _startController<S>({String? tag, required bool showLog}) {
     final key = _getKey(S, tag);
-    final i = _singl[key]!.getDependency(enabledLog) as S;
-    if (i is GetLifeCycleMixin) {
+    final i = _singl[key]!.getDependency(showLog) as S;
+    if (i is _GetLifeCycleMixin) {
       i.onStart();
       if (tag == null) {
-        _log('Instance "$S" has been initialized', enabledLog: enabledLog);
+        _log('Instance "$S" has been initialized', showLog: showLog);
       } else {
-        _log('Instance "$S" with tag "$tag" has been initialized', enabledLog: enabledLog);
+        _log('Instance "$S" with tag "$tag" has been initialized', showLog: showLog);
       }
     }
     return i;
   }
 
-  S putOrFind<S>(InstanceBuilderCallback<S> dep, {String? tag, required bool enabledLog}) {
+  /// if already put controller，then return controller，or put controller
+  S putOrFind<S>(InstanceBuilderCallback<S> dep, {String? tag, required bool showLog}) {
     final key = _getKey(S, tag);
 
     if (_singl.containsKey(key)) {
-      return _singl[key]!.getDependency(enabledLog) as S;
+      return _singl[key]!.getDependency(showLog) as S;
     } else {
       return put(dep(), tag: tag);
     }
@@ -152,7 +108,7 @@ extension Inst on GetInterface {
   /// it will create an instance each time you call [find].
   /// If the registered type <[S]> (or [tag]) is a Controller,
   /// it will initialize it's lifecycle.
-  S find<S>({String? tag, bool enabledLog = true}) {
+  S find<S>({String? tag, bool showLog = true}) {
     final key = _getKey(S, tag);
     if (isRegistered<S>(tag: tag)) {
       final dep = _singl[key];
@@ -164,8 +120,8 @@ extension Inst on GetInterface {
         }
       }
 
-      final i = _initDependencies<S>(name: tag, enabledLog: enabledLog);
-      return i ?? dep.getDependency(enabledLog) as S;
+      final i = _initDependencies<S>(name: tag, showLog: showLog);
+      return i ?? dep.getDependency(showLog) as S;
     } else {
       // ignore: lines_longer_than_80_chars
       throw '"$S" not found. You need to call "Get.put($S())" or "Get.lazyPut(()=>$S())"';
@@ -179,14 +135,6 @@ extension Inst on GetInterface {
       return find<S>(tag: tag);
     }
     return null;
-  }
-
-  /// Replace a parent instance of a class in dependency management
-  /// with a [child] instance
-  /// - [tag] optional, if you use a [tag] to register the Instance.
-  void replace<P>(P child, {String? tag}) {
-    delete<P>(tag: tag);
-    put(child, tag: tag);
   }
 
   /// Generates the key based on [type] (and optionally a [name])
@@ -229,9 +177,9 @@ extension Inst on GetInterface {
 
     final i = builder.dependency;
 
-    if (i is GetLifeCycleMixin) {
+    if (i is _GetLifeCycleMixin) {
       i.onDelete();
-      _log('"$newKey" onDelete() called', enabledLog: dep.enabledLog);
+      _log('"$newKey" onDelete() called', showLog: dep.showLog);
     }
 
     if (dep.lateRemove != null) {
@@ -243,7 +191,7 @@ extension Inst on GetInterface {
       if (_singl.containsKey(newKey)) {
         _log('Error removing object "$newKey"');
       } else {
-        _log('"$newKey" deleted from memory', enabledLog: dep.enabledLog);
+        _log('"$newKey" deleted from memory', showLog: dep.showLog);
       }
       return true;
     }
@@ -278,14 +226,14 @@ extension Inst on GetInterface {
     if (builder == null) return;
 
     final i = builder.dependency;
-    if (i is GetLifeCycleMixin) {
+    if (i is _GetLifeCycleMixin) {
       i.onDelete();
-      _log('"$newKey" onDelete() called', enabledLog: builder.enabledLog);
+      _log('"$newKey" onDelete() called', showLog: builder.showLog);
     }
 
     builder.dependency = null;
     builder.isInit = false;
-    _log('Instance "$newKey" was restarted.', enabledLog: builder.enabledLog);
+    _log('Instance "$newKey" was restarted.', showLog: builder.showLog);
   }
 
   /// Check if a Class Instance<[S]> (or [tag]) is registered in memory.
@@ -333,7 +281,7 @@ class _InstanceBuilderFactory<S> {
 
   String? tag;
 
-  bool enabledLog;
+  bool showLog;
 
   _InstanceBuilderFactory({
     required this.isSingleton,
@@ -341,22 +289,22 @@ class _InstanceBuilderFactory<S> {
     required this.isInit,
     required this.tag,
     required this.lateRemove,
-    required this.enabledLog,
+    required this.showLog,
   });
 
-  void _showInitLog(bool enabledLog) {
+  void _showInitLog(bool showLog) {
     if (tag == null) {
-      _log('Instance "$S" has been created', enabledLog: enabledLog);
+      _log('Instance "$S" has been created', showLog: showLog);
     } else {
-      _log('Instance "$S" has been created with tag "$tag"', enabledLog: enabledLog);
+      _log('Instance "$S" has been created with tag "$tag"', showLog: showLog);
     }
   }
 
   /// Gets the actual instance by it's [builderFunc] or the persisted instance.
-  S getDependency(bool enabledLog) {
+  S getDependency(bool showLog) {
     if (isSingleton!) {
       if (dependency == null) {
-        _showInitLog(enabledLog);
+        _showInitLog(showLog);
         dependency = builderFunc();
       }
       return dependency!;

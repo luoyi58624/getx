@@ -1,6 +1,6 @@
 part of get;
 
-class RxSet<E> extends GetListenable<Set<E>> with SetMixin<E>, RxObjectMixin<Set<E>> {
+class RxSet<E> extends _GetListenable<Set<E>> with SetMixin<E>, RxObjectMixin<Set<E>> {
   RxSet([Set<E> initial = const {}]) : super(initial);
 
   /// Special override to push() element(s) in a reactive way

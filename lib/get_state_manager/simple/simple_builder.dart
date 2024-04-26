@@ -1,18 +1,18 @@
 part of get;
 
-class ObxElement = StatelessElement with StatelessObserverComponent;
+class _ObxElement = StatelessElement with _StatelessObserverComponent;
 
 /// A StatelessWidget than can listen reactive changes.
-abstract class ObxStatelessWidget extends StatelessWidget {
+abstract class _ObxStatelessWidget extends StatelessWidget {
   /// Initializes [key] for subclasses.
-  const ObxStatelessWidget({Key? key}) : super(key: key);
+  const _ObxStatelessWidget({Key? key}) : super(key: key);
   @override
-  StatelessElement createElement() => ObxElement(this);
+  StatelessElement createElement() => _ObxElement(this);
 }
 
 /// a Component that can track changes in a reactive variable
-mixin StatelessObserverComponent on StatelessElement {
-  List<Disposer>? disposers = <Disposer>[];
+mixin _StatelessObserverComponent on StatelessElement {
+  List<_Disposer>? disposers = <_Disposer>[];
 
   void getUpdate() {
     if (disposers != null) {
@@ -22,7 +22,7 @@ mixin StatelessObserverComponent on StatelessElement {
 
   @override
   Widget build() {
-    return Notifier.instance.append(NotifyData(disposers: disposers!, updater: getUpdate), super.build);
+    return _Notifier.instance.append(_NotifyData(disposers: disposers!, updater: getUpdate), super.build);
   }
 
   @override

@@ -1,4 +1,20 @@
-精简getx，仅包含响应式状态管理、以及一些很方便工具扩展函数，移除路由、依赖绑定、http请求、GetBuilder、Getx等api
+精简后的getx，仅包含响应式状态管理、以及一些很方便工具扩展函数，移除路由、依赖绑定、http请求、GetBuilder、Getx等api，
+整个项目源码已不到3000行，核心源码估计在1000行左右。
+![](public/code_statitic.png)
+
+# 保留了哪些？
+
+- obs 响应式变量
+- Get.put、Get.find 依赖注入、依赖获取
+- ever、once、interval... 响应式副作用函数，全部都保留
+- context 扩展函数
+- num 扩展函数
+- get_util 工具类
+- platform 获取平台类型工具类
+
+# 移除了哪些?
+
+除了上面列出来的，全部都移除掉了，你只需要 obs、Get.put、Get.find 就可以实现全局状态管理了，除此之外没有任何其他繁杂的知识点。
 
 # 计数器示例
 
@@ -104,6 +120,7 @@ class Child extends StatelessWidget {
 # 操作各种类型的响应式变量
 
 - 基础类型
+
 ```dart
 class Controller extends GetxController {
   final intType = 0.obs;
@@ -120,7 +137,7 @@ class Controller extends GetxController {
   updateBoolType() => boolType.value = !boolType.value;
 }
 
-void page(){
+void page() {
   Column(
     children: [
       ElevatedButton(
@@ -145,6 +162,7 @@ void page(){
 ```
 
 - Map类型
+
 ```dart
 class Controller extends GetxController {
   final map = <String, dynamic>{'name': 'hihi', 'age': 20}.obs;
@@ -163,7 +181,7 @@ class Controller extends GetxController {
   }
 }
 
-void page(){
+void page() {
   Column(
     children: [
       ElevatedButton(
@@ -186,6 +204,7 @@ void page(){
 - 嵌套Map类型
 - Getx只做了一层拦截，你如果修改深层嵌套属性，则必须手动调用refresh来触发页面刷新
 - 此逻辑同样适用于List<Model>、List<Map>，凡是深层变量更新你都必须手动刷新
+
 ```dart
 class Controller extends GetxController {
   /// 嵌套map
@@ -246,6 +265,7 @@ void page() {
 ```
 
 - List类型(基础类型)
+
 ```dart
 class Controller extends GetxController {
   final list = [1, 2, 3].obs;
@@ -297,6 +317,7 @@ void page() {
 ```
 
 - List类型(Map类型)
+
 ```dart
 class Controller extends GetxController {
   final list = <Map<String, dynamic>>[
@@ -362,6 +383,7 @@ void page() {
 ```
 
 - List类型(Model类型)
+
 ```dart
 class User {
   User({required this.name, required this.age});

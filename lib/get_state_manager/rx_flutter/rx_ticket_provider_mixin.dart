@@ -184,7 +184,7 @@ class _WidgetTicker extends Ticker {
 ///  }
 ///  ...
 /// ```
-mixin SingleGetTickerProviderMixin on GetLifeCycleMixin implements TickerProvider {
+mixin SingleGetTickerProviderMixin on _GetLifeCycleMixin implements TickerProvider {
   @override
   Ticker createTicker(TickerCallback onTick) => Ticker(onTick);
 }

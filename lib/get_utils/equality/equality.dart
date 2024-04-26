@@ -1,13 +1,13 @@
 part of get;
 
-mixin GetxEquality {
+mixin _GetxEquality {
   List get props;
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         runtimeType == other.runtimeType &&
-            other is GetxEquality &&
+            other is _GetxEquality &&
             const _DeepCollectionEquality().equals(props, other.props);
   }
 

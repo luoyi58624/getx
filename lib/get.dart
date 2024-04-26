@@ -45,8 +45,6 @@ part 'get_state_manager/rx_flutter/rx_obx_widget.dart';
 
 part 'get_state_manager/rx_flutter/rx_ticket_provider_mixin.dart';
 
-part 'get_state_manager/simple/get_controllers.dart';
-
 part 'get_state_manager/simple/list_notifier.dart';
 
 part 'get_state_manager/simple/simple_builder.dart';
@@ -56,8 +54,6 @@ part 'get_utils/equality/equality.dart';
 part 'get_utils/extensions/context_extensions.dart';
 
 part 'get_utils/extensions/num_extensions.dart';
-
-part 'get_utils/extensions/string_extensions.dart';
 
 part 'get_utils/get_utils/get_utils.dart';
 
@@ -74,7 +70,10 @@ class _GetImpl extends GetInterface {}
 // ignore: non_constant_identifier_names
 final Get = _GetImpl();
 
+/// Getx控制器
+abstract class GetxController extends _ListNotifier with _GetLifeCycleMixin {}
+
 /// default logger from GetX
-void _log(String value, {bool enabledLog = true}) {
-  if (enabledLog && kDebugMode) developer.log(value, name: 'GETX');
+void _log(String value, {bool showLog = true}) {
+  if (showLog && kDebugMode) developer.log(value, name: 'GETX');
 }

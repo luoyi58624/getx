@@ -9,7 +9,7 @@ part of get;
 ///   }
 /// }
 /// ```
-mixin GetLifeCycleMixin {
+mixin _GetLifeCycleMixin {
   /// Called immediately after the widget is allocated in memory.
   /// You might use this to initialize something for the controller.
   @protected

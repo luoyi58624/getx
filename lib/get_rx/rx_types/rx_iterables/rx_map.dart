@@ -1,6 +1,6 @@
 part of get;
 
-class RxMap<K, V> extends GetListenable<Map<K, V>> with MapMixin<K, V>, RxObjectMixin<Map<K, V>> {
+class RxMap<K, V> extends _GetListenable<Map<K, V>> with MapMixin<K, V>, RxObjectMixin<Map<K, V>> {
   RxMap([Map<K, V> initial = const {}]) : super(initial);
 
   factory RxMap.from(Map<K, V> other) {
