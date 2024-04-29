@@ -1,5 +1,5 @@
-name: get
-description: Open screens/snackbars/dialogs without context, manage states and inject dependencies easily with GetX.
+name: mini_getx
+description: The mini version getx, Only retain state management, remove route、connect、bing...
 version: 5.0.0
 homepage: https://github.com/jonataslaw/getx
 
