@@ -1,4 +1,4 @@
-part of get;
+part of mini_getx;
 
 // This callback remove the listener on addListener function
 typedef _Disposer = void Function();

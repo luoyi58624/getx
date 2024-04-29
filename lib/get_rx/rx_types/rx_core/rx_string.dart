@@ -1,4 +1,4 @@
-part of get;
+part of mini_getx;
 
 extension RxStringExt on Rx<String> {
   String operator +(String val) => value + val;

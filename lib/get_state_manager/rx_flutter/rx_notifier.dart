@@ -1,4 +1,4 @@
-part of get;
+part of mini_getx;
 
 class _GetListenable<T> extends _ListNotifierSingle implements RxInterface<T> {
   _GetListenable(T val) : _value = val;

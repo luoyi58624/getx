@@ -1,4 +1,4 @@
-part of get;
+part of mini_getx;
 
 class RxMap<K, V> extends _GetListenable<Map<K, V>> with MapMixin<K, V>, RxObjectMixin<Map<K, V>> {
   RxMap([Map<K, V> initial = const {}]) : super(initial);

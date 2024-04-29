@@ -1,4 +1,4 @@
-part of get;
+part of mini_getx;
 
 extension Inst on GetInterface {
   /// Holds references to every registered Instance when using

@@ -1,4 +1,4 @@
-part of get;
+part of mini_getx;
 
 class RxSet<E> extends _GetListenable<Set<E>> with SetMixin<E>, RxObjectMixin<Set<E>> {
   RxSet([Set<E> initial = const {}]) : super(initial);

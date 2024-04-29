@@ -1,4 +1,4 @@
-part of get;
+part of mini_getx;
 
 /// Used like `SingleTickerProviderMixin` but only with Get Controllers.
 /// Simplifies AnimationController creation inside GetxController.

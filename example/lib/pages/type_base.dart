@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:mini_getx/mini_getx.dart';
 
 class Controller extends GetxController {
   final intType = 0.obs;

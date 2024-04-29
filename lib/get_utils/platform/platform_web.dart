@@ -1,5 +1,5 @@
 // ignore: avoid_web_libraries_in_flutter
-import 'package:get/get.dart';
+import 'package:mini_getx/mini_getx.dart';
 import 'package:web/web.dart' as html;
 
 html.Navigator _navigator = html.window.navigator;

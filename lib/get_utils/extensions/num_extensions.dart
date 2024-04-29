@@ -1,4 +1,4 @@
-part of get;
+part of mini_getx;
 
 extension GetNumUtils on num {
   bool isLowerThan(num b) => GetUtils.isLowerThan(this, b);

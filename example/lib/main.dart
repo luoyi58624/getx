@@ -2,7 +2,7 @@ import 'package:device_preview/device_preview.dart';
 import 'package:example/pages/count.dart';
 import 'package:example/pages/type_base.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:mini_getx/mini_getx.dart';
 
 import 'pages/type_list_base.dart';
 import 'pages/type_list_map.dart';

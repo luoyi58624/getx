@@ -1,4 +1,4 @@
-part of get;
+part of mini_getx;
 
 /// This "function" class is the implementation of `debouncer()` Worker.
 /// It calls the function passed after specified [delay] parameter.

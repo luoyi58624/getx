@@ -1,4 +1,4 @@
-part of get;
+part of mini_getx;
 
 extension GetContextExt on BuildContext {
   /// The same of [MediaQuery.sizeOf(context)]

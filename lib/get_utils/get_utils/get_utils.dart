@@ -1,4 +1,4 @@
-part of get;
+part of mini_getx;
 
 /// Returns whether a dynamic value PROBABLY
 /// has the isEmpty getter/method by checking

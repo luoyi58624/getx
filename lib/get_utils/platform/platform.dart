@@ -1,4 +1,4 @@
-part of get;
+part of mini_getx;
 
 // ignore: avoid_classes_with_only_static_members
 class GetPlatform {

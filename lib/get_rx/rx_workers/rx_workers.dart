@@ -1,4 +1,4 @@
-part of get;
+part of mini_getx;
 
 bool _conditional(dynamic condition) {
   if (condition == null) return true;

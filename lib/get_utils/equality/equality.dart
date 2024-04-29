@@ -1,4 +1,4 @@
-part of get;
+part of mini_getx;
 
 mixin _GetxEquality {
   List get props;

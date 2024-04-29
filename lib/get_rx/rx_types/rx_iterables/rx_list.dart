@@ -1,4 +1,4 @@
-part of get;
+part of mini_getx;
 
 /// Create a list similar to `List<T>`
 class RxList<E> extends _GetListenable<List<E>> with ListMixin<E>, RxObjectMixin<List<E>> {

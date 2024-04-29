@@ -1,7 +1,7 @@
 /// GetX is an extra-light and powerful multi-platform framework.
 /// It combines high performance state management, intelligent dependency
 /// injection, and route management in a quick and practical way.
-library get;
+library mini_getx;
 
 import 'get_utils/platform/platform_web.dart' if (dart.library.io) 'get_utils/platform/platform_io.dart';
 import 'dart:collection';

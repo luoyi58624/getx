@@ -1,4 +1,4 @@
-part of get;
+part of mini_getx;
 
 /// The [GetLifeCycle]
 ///

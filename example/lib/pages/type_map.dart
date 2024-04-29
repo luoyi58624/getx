@@ -1,7 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:mini_getx/mini_getx.dart';
 
 class Controller extends GetxController {
   final map = <String, dynamic>{'name': 'hihi', 'age': 20}.obs;
