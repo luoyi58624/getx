@@ -1,11 +1,11 @@
-part of mini_getx;
+part of '../../mini_getx.dart';
 
 class _ObxElement = StatelessElement with _StatelessObserverComponent;
 
 /// A StatelessWidget than can listen reactive changes.
 abstract class _ObxStatelessWidget extends StatelessWidget {
   /// Initializes [key] for subclasses.
-  const _ObxStatelessWidget({Key? key}) : super(key: key);
+  const _ObxStatelessWidget({super.key});
   @override
   StatelessElement createElement() => _ObxElement(this);
 }

@@ -1,4 +1,4 @@
-part of mini_getx;
+part of '../../mini_getx.dart';
 
 bool _conditional(dynamic condition) {
   if (condition == null) return true;
@@ -54,7 +54,7 @@ class Workers {
 /// }
 /// ```
 Worker ever<T>(
-  _GetListenable<T> listener,
+  GetListenable<T> listener,
   WorkerCallback<T> callback, {
   dynamic condition = true,
   Function? onError,
@@ -128,7 +128,7 @@ Worker everAll(
 /// }
 ///```
 Worker once<T>(
-  _GetListenable<T> listener,
+  GetListenable<T> listener,
   WorkerCallback<T> callback, {
   dynamic condition = true,
   Function? onError,
@@ -171,7 +171,7 @@ Worker once<T>(
 /// );
 /// ```
 Worker interval<T>(
-  _GetListenable<T> listener,
+  GetListenable<T> listener,
   WorkerCallback<T> callback, {
   Duration time = const Duration(seconds: 1),
   dynamic condition = true,
@@ -215,17 +215,17 @@ Worker interval<T>(
 ///  }
 ///  ```
 Worker debounce<T>(
-  _GetListenable<T> listener,
+  GetListenable<T> listener,
   WorkerCallback<T> callback, {
   Duration? time,
   Function? onError,
   void Function()? onDone,
   bool? cancelOnError,
 }) {
-  final newDebouncer = Debouncer(delay: time ?? const Duration(milliseconds: 800));
+  final newDebounce = Debounce(delay: time ?? const Duration(milliseconds: 800));
   StreamSubscription sub = listener.listen(
     (event) {
-      newDebouncer(() {
+      newDebounce(() {
         callback(event);
       });
     },

@@ -1,4 +1,4 @@
-part of mini_getx;
+part of '../mini_getx.dart';
 
 /// The [GetLifeCycle]
 ///
@@ -9,7 +9,7 @@ part of mini_getx;
 ///   }
 /// }
 /// ```
-mixin _GetLifeCycleMixin {
+mixin GetLifeCycleMixin {
   /// Called immediately after the widget is allocated in memory.
   /// You might use this to initialize something for the controller.
   @protected

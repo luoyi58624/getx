@@ -1,10 +1,10 @@
-part of mini_getx;
+part of '../../../mini_getx.dart';
 
 /// global object that registers against `GetX` and `Obx`, and allows the
 /// reactivity
 /// of those `Widgets` and Rx values.
 
-mixin RxObjectMixin<T> on _GetListenable<T> {
+mixin _RxObjectMixin<T> on GetListenable<T> {
   //late T _value;
 
   /// Makes a direct update of [value] adding it to the Stream
@@ -86,7 +86,7 @@ mixin RxObjectMixin<T> on _GetListenable<T> {
   bool operator ==(Object o) {
     // Todo, find a common implementation for the hashCode of different Types.
     if (o is T) return value == o;
-    if (o is RxObjectMixin<T>) return value == o.value;
+    if (o is _RxObjectMixin<T>) return value == o.value;
     return false;
   }
 
@@ -138,8 +138,8 @@ mixin RxObjectMixin<T> on _GetListenable<T> {
 }
 
 /// Base Rx class that manages all the stream logic for any Type.
-abstract class _RxImpl<T> extends _GetListenable<T> with RxObjectMixin<T> {
-  _RxImpl(T initial) : super(initial);
+abstract class _RxImpl<T> extends GetListenable<T> with _RxObjectMixin<T> {
+  _RxImpl(super.initial);
 
   void addError(Object error, [StackTrace? stackTrace]) {
     subject.addError(error, stackTrace);
@@ -209,7 +209,7 @@ abstract class _RxImpl<T> extends _GetListenable<T> with RxObjectMixin<T> {
 }
 
 class RxBool extends Rx<bool> {
-  RxBool(bool initial) : super(initial);
+  RxBool(super.initial);
 
   @override
   String toString() {
@@ -218,7 +218,7 @@ class RxBool extends Rx<bool> {
 }
 
 class RxnBool extends Rx<bool?> {
-  RxnBool([bool? initial]) : super(initial);
+  RxnBool([super.initial]);
 
   @override
   String toString() {
@@ -284,7 +284,7 @@ extension RxnBoolExt on Rx<bool?> {
 /// For example, any custom "Model" class, like User().obs will use `Rx` as
 /// wrapper.
 class Rx<T> extends _RxImpl<T> {
-  Rx(T initial) : super(initial);
+  Rx(super.initial);
 
   @override
   dynamic toJson() {
@@ -297,7 +297,7 @@ class Rx<T> extends _RxImpl<T> {
 }
 
 class Rxn<T> extends Rx<T?> {
-  Rxn([T? initial]) : super(initial);
+  Rxn([super.initial]);
 
   @override
   dynamic toJson() {

@@ -1,4 +1,4 @@
-part of mini_getx;
+part of '../../mini_getx.dart';
 
 // This callback remove the listener on addListener function
 typedef _Disposer = void Function();
@@ -95,7 +95,7 @@ mixin _ListNotifierGroupMixin on Listenable {
   }
 
   @protected
-  void notifyGroupChildrens(Object id) {
+  void notifyGroupChildren(Object id) {
     assert(_debugAssertNotDisposed());
     _Notifier.instance.read(_updatersGroupIds![id]!);
   }
@@ -172,7 +172,7 @@ class _Notifier {
   T append<T>(_NotifyData data, T Function() builder) {
     _notifyData = data;
     final result = builder();
-    if (data.disposers.isEmpty && data.throwException) {
+    if (data.disposers.isEmpty) {
       throw const _ObxError();
     }
     _notifyData = null;
@@ -181,10 +181,9 @@ class _Notifier {
 }
 
 class _NotifyData {
-  const _NotifyData({required this.updater, required this.disposers, this.throwException = true});
+  const _NotifyData({required this.updater, required this.disposers});
   final _GetStateUpdate updater;
   final List<VoidCallback> disposers;
-  final bool throwException;
 }
 
 class _ObxError {

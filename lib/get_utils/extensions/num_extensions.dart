@@ -1,4 +1,4 @@
-part of mini_getx;
+part of '../../mini_getx.dart';
 
 extension GetNumUtils on num {
   bool isLowerThan(num b) => GetUtils.isLowerThan(this, b);

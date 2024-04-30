@@ -1,4 +1,4 @@
-part of mini_getx;
+part of '../../mini_getx.dart';
 
 extension GetContextExt on BuildContext {
   /// The same of [MediaQuery.sizeOf(context)]

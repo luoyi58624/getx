@@ -1,4 +1,4 @@
-part of mini_getx;
+part of '../../mini_getx.dart';
 
 // ignore: avoid_classes_with_only_static_members
 class GetPlatform {

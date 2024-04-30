@@ -1,4 +1,4 @@
-part of mini_getx;
+part of '../../../mini_getx.dart';
 
 /// This class is the foundation for all reactive (Rx) classes that makes Get
 /// so powerful.

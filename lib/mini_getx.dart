@@ -11,12 +11,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/material.dart';
 
-// export 'get_core/get_core.dart';
-// export 'get_instance/get_instance.dart';
-// export 'get_rx/get_rx.dart';
-// export 'get_state_manager/get_state_manager.dart';
-// export 'get_utils/get_utils.dart';
-
 part 'get_instance/extension_instance.dart';
 
 part 'get_instance/lifecycle.dart';
@@ -37,7 +31,7 @@ part 'get_rx/rx_types/rx_iterables/rx_set.dart';
 
 part 'get_rx/rx_workers/rx_workers.dart';
 
-part 'get_rx/rx_workers/utils/debouncer.dart';
+part 'get_rx/rx_workers/utils/debounce.dart';
 
 part 'get_state_manager/rx_flutter/rx_notifier.dart';
 
@@ -48,8 +42,6 @@ part 'get_state_manager/rx_flutter/rx_ticket_provider_mixin.dart';
 part 'get_state_manager/simple/list_notifier.dart';
 
 part 'get_state_manager/simple/simple_builder.dart';
-
-part 'get_utils/equality/equality.dart';
 
 part 'get_utils/extensions/context_extensions.dart';
 
@@ -71,7 +63,7 @@ class _GetImpl extends GetInterface {}
 final Get = _GetImpl();
 
 /// Getx控制器
-abstract class GetxController extends _ListNotifier with _GetLifeCycleMixin {}
+abstract class GetxController extends _ListNotifier with GetLifeCycleMixin {}
 
 /// default logger from GetX
 void _log(String value, {bool showLog = true}) {

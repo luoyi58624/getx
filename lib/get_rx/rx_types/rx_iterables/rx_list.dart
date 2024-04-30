@@ -1,8 +1,8 @@
-part of mini_getx;
+part of '../../../mini_getx.dart';
 
 /// Create a list similar to `List<T>`
-class RxList<E> extends _GetListenable<List<E>> with ListMixin<E>, RxObjectMixin<List<E>> {
-  RxList([List<E> initial = const []]) : super(initial);
+class RxList<E> extends GetListenable<List<E>> with ListMixin<E>, _RxObjectMixin<List<E>> {
+  RxList([super.initial = const []]);
 
   factory RxList.filled(int length, E fill, {bool growable = false}) {
     return RxList(List.filled(length, fill, growable: growable));

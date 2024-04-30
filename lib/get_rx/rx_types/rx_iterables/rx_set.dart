@@ -1,7 +1,7 @@
-part of mini_getx;
+part of '../../../mini_getx.dart';
 
-class RxSet<E> extends _GetListenable<Set<E>> with SetMixin<E>, RxObjectMixin<Set<E>> {
-  RxSet([Set<E> initial = const {}]) : super(initial);
+class RxSet<E> extends GetListenable<Set<E>> with SetMixin<E>, _RxObjectMixin<Set<E>> {
+  RxSet([super.initial = const {}]);
 
   /// Special override to push() element(s) in a reactive way
   /// inside the List,

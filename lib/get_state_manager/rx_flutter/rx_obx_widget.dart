@@ -1,4 +1,4 @@
-part of mini_getx;
+part of '../../mini_getx.dart';
 
 typedef WidgetCallback = Widget Function();
 
@@ -8,7 +8,7 @@ typedef WidgetCallback = Widget Function();
 /// - [Obx]
 /// - [_ObxValue]
 abstract class _ObxWidget extends _ObxStatelessWidget {
-  const _ObxWidget({Key? key}) : super(key: key);
+  const _ObxWidget({super.key});
 }
 
 /// The simplest reactive widget in GetX.

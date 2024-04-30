@@ -1,7 +1,7 @@
-part of mini_getx;
+part of '../../mini_getx.dart';
 
-class _GetListenable<T> extends _ListNotifierSingle implements RxInterface<T> {
-  _GetListenable(T val) : _value = val;
+class GetListenable<T> extends _ListNotifierSingle implements RxInterface<T> {
+  GetListenable(T val) : _value = val;
 
   StreamController<T>? _controller;
 

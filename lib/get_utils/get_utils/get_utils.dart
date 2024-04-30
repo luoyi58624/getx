@@ -1,4 +1,4 @@
-part of mini_getx;
+part of '../../mini_getx.dart';
 
 /// Returns whether a dynamic value PROBABLY
 /// has the isEmpty getter/method by checking

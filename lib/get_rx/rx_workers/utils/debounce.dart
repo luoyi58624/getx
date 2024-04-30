@@ -1,18 +1,18 @@
-part of mini_getx;
+part of '../../../mini_getx.dart';
 
 /// This "function" class is the implementation of `debouncer()` Worker.
 /// It calls the function passed after specified [delay] parameter.
 /// Example:
 /// ```
-/// final delayed = Debouncer( delay: Duration( seconds: 1 )) ;
+/// final delayed = Debounce( delay: Duration( seconds: 1 )) ;
 /// print( 'the next function will be called after 1 sec' );
 /// delayed( () => print( 'called after 1 sec' ));
 /// ```
-class Debouncer {
+class Debounce {
   final Duration delay;
   Timer? _timer;
 
-  Debouncer({required this.delay});
+  Debounce({required this.delay});
 
   void call(void Function() action) {
     _timer?.cancel();

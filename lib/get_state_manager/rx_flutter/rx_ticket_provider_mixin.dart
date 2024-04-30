@@ -1,4 +1,4 @@
-part of mini_getx;
+part of '../../mini_getx.dart';
 
 /// Used like `SingleTickerProviderMixin` but only with Get Controllers.
 /// Simplifies AnimationController creation inside GetxController.
@@ -153,7 +153,7 @@ mixin GetTickerProviderStateMixin on GetxController implements TickerProvider {
 }
 
 class _WidgetTicker extends Ticker {
-  _WidgetTicker(TickerCallback onTick, this._creator, {String? debugLabel}) : super(onTick, debugLabel: debugLabel);
+  _WidgetTicker(super.onTick, this._creator, {super.debugLabel});
 
   final GetTickerProviderStateMixin _creator;
 
@@ -184,7 +184,7 @@ class _WidgetTicker extends Ticker {
 ///  }
 ///  ...
 /// ```
-mixin SingleGetTickerProviderMixin on _GetLifeCycleMixin implements TickerProvider {
+mixin SingleGetTickerProviderMixin on GetLifeCycleMixin implements TickerProvider {
   @override
   Ticker createTicker(TickerCallback onTick) => Ticker(onTick);
 }

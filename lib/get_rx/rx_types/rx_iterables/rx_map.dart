@@ -1,7 +1,7 @@
-part of mini_getx;
+part of '../../../mini_getx.dart';
 
-class RxMap<K, V> extends _GetListenable<Map<K, V>> with MapMixin<K, V>, RxObjectMixin<Map<K, V>> {
-  RxMap([Map<K, V> initial = const {}]) : super(initial);
+class RxMap<K, V> extends GetListenable<Map<K, V>> with MapMixin<K, V>, _RxObjectMixin<Map<K, V>> {
+  RxMap([super.initial = const {}]);
 
   factory RxMap.from(Map<K, V> other) {
     return RxMap(Map.from(other));
