@@ -1,3 +1,11 @@
+## [5.0.1]
+
+升级flutter_lints，并解决所有警告
+
+## [5.0.0]
+
+精简getx，只保留响应式状态管理，移除路由、网络请求、依赖绑定等Api
+
 ## [5.0.0-release-candidate-5]
 
 -Fix nested route issues, fixed issues in the latest flutter version
