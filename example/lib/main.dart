@@ -1,6 +1,8 @@
 import 'package:device_preview/device_preview.dart';
 import 'package:example/pages/count.dart';
+import 'package:example/pages/nest_obx.dart';
 import 'package:example/pages/type_base.dart';
+import 'package:example/pages/worker_test.dart';
 import 'package:flutter/material.dart';
 import 'package:mini_getx/mini_getx.dart';
 
@@ -86,6 +88,18 @@ class HomePage extends StatelessWidget {
                 Navigator.of(context).push(MaterialPageRoute(builder: (context) => const TypeListModelPage()));
               },
               child: const Text('响应式变量类型示例 - List类型 - model'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.of(context).push(MaterialPageRoute(builder: (context) => const WorkerTestPage()));
+              },
+              child: const Text('Worker测试'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.of(context).push(MaterialPageRoute(builder: (context) => const NestObxPage()));
+              },
+              child: const Text('Obx重建范围测试'),
             ),
           ],
         ),
