@@ -1,6 +1,6 @@
 name: mini_getx
 description: The fork getx, this is a mini version getx, Only retain state management, remove route、connect、bing...
-version: 5.0.1
+version: 5.0.2
 homepage: https://github.com/jonataslaw/getx
 repository: https://github.com/luoyi58624/getx.git
 

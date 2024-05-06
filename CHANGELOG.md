@@ -1,3 +1,7 @@
+## [5.0.2]
+
+修复dispose worker内存溢出bug
+
 ## [5.0.1]
 
 升级flutter_lints，并解决所有警告
