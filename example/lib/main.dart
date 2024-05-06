@@ -4,8 +4,8 @@ import 'package:example/pages/nest_obx.dart';
 import 'package:example/pages/type_base.dart';
 import 'package:example/pages/worker_test.dart';
 import 'package:flutter/material.dart';
-import 'package:mini_getx/mini_getx.dart';
 
+import 'global.dart';
 import 'pages/type_list_base.dart';
 import 'pages/type_list_map.dart';
 import 'pages/type_list_model.dart';

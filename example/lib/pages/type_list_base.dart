@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mini_getx/mini_getx.dart';
+import '../global.dart';
 
 class Controller extends GetxController {
   final list = [1, 2, 3].obs;

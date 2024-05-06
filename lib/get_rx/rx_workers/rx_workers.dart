@@ -141,7 +141,7 @@ Worker once<T>(
     (event) {
       if (!_conditional(condition)) return;
       ref._disposed = true;
-      ref._log('called');
+      ref._printLog('called');
       sub?.cancel();
       callback(event);
     },
@@ -249,19 +249,19 @@ class Worker {
   bool get disposed => _disposed;
 
   //final bool _verbose = true;
-  void _log(String msg) {
+  void _printLog(String msg) {
     //  if (!_verbose) return;
-    _log('$runtimeType $type $msg');
+    _getxLog('$runtimeType $type $msg');
   }
 
   void dispose() {
     if (_disposed) {
-      _log('already disposed');
+      _printLog('already disposed');
       return;
     }
     _disposed = true;
     worker();
-    _log('disposed');
+    _printLog('disposed');
   }
 
   void call() => dispose();

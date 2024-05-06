@@ -66,6 +66,6 @@ final Get = _GetImpl();
 abstract class GetxController extends _ListNotifier with GetLifeCycleMixin {}
 
 /// default logger from GetX
-void _log(String value, {bool showLog = true}) {
+void _getxLog(String value, {bool showLog = true}) {
   if (showLog && kDebugMode) developer.log(value, name: 'GETX');
 }

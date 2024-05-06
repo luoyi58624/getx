@@ -626,7 +626,7 @@ class GetUtils {
     String info, {
     bool isError = false,
   }) {
-    _log('$prefix $value $info'.trim());
+    _getxLog('$prefix $value $info'.trim());
   }
 }
 

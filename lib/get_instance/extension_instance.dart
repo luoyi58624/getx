@@ -72,7 +72,7 @@ extension GetInstance on GetInterface {
     final newKey = key ?? _getKey(S, tag);
 
     if (!_instances.containsKey(newKey)) {
-      _log('Instance "$newKey" is not registered.');
+      _getxLog('Instance "$newKey" is not registered.');
       return null;
     } else {
       return _instances[newKey];
@@ -86,9 +86,9 @@ extension GetInstance on GetInterface {
     if (i is GetLifeCycleMixin) {
       i.onStart();
       if (tag == null) {
-        _log('Instance "$S" has been initialized', showLog: showLog);
+        _getxLog('Instance "$S" has been initialized', showLog: showLog);
       } else {
-        _log('Instance "$S" with tag "$tag" has been initialized', showLog: showLog);
+        _getxLog('Instance "$S" with tag "$tag" has been initialized', showLog: showLog);
       }
     }
     return i;
@@ -181,19 +181,19 @@ extension GetInstance on GetInterface {
 
     if (i is GetLifeCycleMixin) {
       i.onDelete();
-      _log('"$newKey" onDelete() called', showLog: dep.showLog);
+      _getxLog('"$newKey" onDelete() called', showLog: dep.showLog);
     }
 
     if (dep.lateRemove != null) {
       dep.lateRemove = null;
-      _log('"$newKey" deleted from memory');
+      _getxLog('"$newKey" deleted from memory');
       return false;
     } else {
       _instances.remove(newKey);
       if (_instances.containsKey(newKey)) {
-        _log('Error removing object "$newKey"');
+        _getxLog('Error removing object "$newKey"');
       } else {
-        _log('"$newKey" deleted from memory', showLog: dep.showLog);
+        _getxLog('"$newKey" deleted from memory', showLog: dep.showLog);
       }
       return true;
     }
@@ -214,7 +214,7 @@ extension GetInstance on GetInterface {
     _instances.forEach((key, value) {
       value.dependency = null;
       value.isInit = false;
-      _log('Instance "$key" was reloaded.');
+      _getxLog('Instance "$key" was reloaded.');
     });
   }
 
@@ -230,12 +230,12 @@ extension GetInstance on GetInterface {
     final i = builder.dependency;
     if (i is GetLifeCycleMixin) {
       i.onDelete();
-      _log('"$newKey" onDelete() called', showLog: builder.showLog);
+      _getxLog('"$newKey" onDelete() called', showLog: builder.showLog);
     }
 
     builder.dependency = null;
     builder.isInit = false;
-    _log('Instance "$newKey" was restarted.', showLog: builder.showLog);
+    _getxLog('Instance "$newKey" was restarted.', showLog: builder.showLog);
   }
 
   /// Check if a Class Instance<[S]> (or [tag]) is registered in memory.
@@ -296,9 +296,9 @@ class InstanceBuilderFactory<S> {
 
   void _showInitLog(bool showLog) {
     if (tag == null) {
-      _log('Instance "$S" has been created', showLog: showLog);
+      _getxLog('Instance "$S" has been created', showLog: showLog);
     } else {
-      _log('Instance "$S" has been created with tag "$tag"', showLog: showLog);
+      _getxLog('Instance "$S" has been created with tag "$tag"', showLog: showLog);
     }
   }
 
