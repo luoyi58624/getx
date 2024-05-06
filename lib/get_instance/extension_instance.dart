@@ -5,8 +5,13 @@ extension GetInstance on GetInterface {
   /// `Get.put()`
   static final Map<String, InstanceBuilderFactory> _instances = {};
 
+  /// 获取已注入的所有控制器
   Map<String, InstanceBuilderFactory> get instances => _instances;
 
+  /// 注入控制器
+  /// * dependency 控制器对象
+  /// * tag 当需要注入多个相同对象控制器时，你应当设置标签用于区分
+  /// * showLog 是否在控制台打印日志
   S put<S>(
     S dependency, {
     String? tag,
