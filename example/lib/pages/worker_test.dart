@@ -1,4 +1,3 @@
-import 'package:example/pages/count.dart';
 import 'package:flutter/material.dart';
 import 'package:luoyi_dart_base/luoyi_dart_base.dart';
 
@@ -7,6 +6,7 @@ import '../global.dart';
 class Controller extends GetxController {
   final count = 0.obs;
   late Worker _worker;
+  final List<Worker> _workerList = [];
 
   @override
   void onInit() {
@@ -18,11 +18,22 @@ class Controller extends GetxController {
       },
       condition: () => count.value > 5,
     );
+
+    List.generate(
+        1000000,
+        (index) => _workerList.add(ever(
+              count,
+              (v) {
+                var i = count;
+              },
+              showLog: false,
+            )));
   }
 
   @override
   void onClose() {
     super.onClose();
+    // 这一步你可以省略，当控制器被卸载时getx会自动释放监听器
     _worker.dispose();
   }
 }
@@ -35,7 +46,7 @@ class WorkerTestPage extends StatefulWidget {
 }
 
 class _WorkerTestPageState extends State<WorkerTestPage> {
-  Controller c = Get.put(Controller());
+  Controller c = Get.put(Controller(), showLog: false);
 
   @override
   void dispose() {
@@ -108,22 +119,40 @@ class _ChildPage extends StatefulWidget {
 class _ChildPageState extends State<_ChildPage> {
   Controller c = Get.find();
   late Worker _worker;
+  final List<Worker> _workerList = [];
 
   @override
   void initState() {
     super.initState();
+
     _worker = ever(
       c.count,
       (v) {
         debugPrint(v.toString());
       },
     );
+
+    List.generate(
+        1000000,
+        (index) => _workerList.add(ever(
+              c.count,
+              (v) {
+                var i = c.count;
+              },
+              showLog: false,
+            )));
   }
 
   @override
-  void dispose() {
+  void dispose() async {
     super.dispose();
     _worker.dispose();
+    i('开始销毁');
+    int start = DartUtil.currentMilliseconds;
+    for (var element in _workerList) {
+      await element.dispose();
+    }
+    i('销毁完成，耗时：${DartUtil.currentMilliseconds - start} 毫秒');
   }
 
   @override

@@ -60,6 +60,7 @@ Worker ever<T>(
   Function? onError,
   void Function()? onDone,
   bool? cancelOnError,
+  bool showLog = true,
 }) {
   StreamSubscription sub = listener.listen(
     (event) {
@@ -69,7 +70,7 @@ Worker ever<T>(
     onDone: onDone,
     cancelOnError: cancelOnError,
   );
-  return Worker(sub.cancel, '[ever]');
+  return Worker(sub.cancel, '[ever]', showLog);
 }
 
 /// Similar to [ever], but takes a list of [listeners], the condition
@@ -83,6 +84,7 @@ Worker everAll(
   Function? onError,
   void Function()? onDone,
   bool? cancelOnError,
+  bool showLog = true,
 }) {
   final evers = <StreamSubscription>[];
   for (var i in listeners) {
@@ -103,7 +105,7 @@ Worker everAll(
     }
   }
 
-  return Worker(cancel, '[everAll]');
+  return Worker(cancel, '[everAll]', showLog);
 }
 
 /// `once()` will execute only 1 time when [condition] is met and cancel
@@ -134,6 +136,7 @@ Worker once<T>(
   Function? onError,
   void Function()? onDone,
   bool? cancelOnError,
+  bool showLog = true,
 }) {
   late Worker ref;
   StreamSubscription? sub;
@@ -149,7 +152,7 @@ Worker once<T>(
     onDone: onDone,
     cancelOnError: cancelOnError,
   );
-  ref = Worker(sub.cancel, '[once]');
+  ref = Worker(sub.cancel, '[once]', showLog);
   return ref;
 }
 
@@ -178,6 +181,7 @@ Worker interval<T>(
   Function? onError,
   void Function()? onDone,
   bool? cancelOnError,
+  bool showLog = true,
 }) {
   var debounceActive = false;
   StreamSubscription sub = listener.listen(
@@ -192,7 +196,7 @@ Worker interval<T>(
     onDone: onDone,
     cancelOnError: cancelOnError,
   );
-  return Worker(sub.cancel, '[interval]');
+  return Worker(sub.cancel, '[interval]', showLog);
 }
 
 /// [debounce] is similar to [interval], but sends the last value.
@@ -221,6 +225,7 @@ Worker debounce<T>(
   Function? onError,
   void Function()? onDone,
   bool? cancelOnError,
+  bool showLog = true,
 }) {
   final newDebounce = Debounce(delay: time ?? const Duration(milliseconds: 800));
   StreamSubscription sub = listener.listen(
@@ -233,36 +238,41 @@ Worker debounce<T>(
     onDone: onDone,
     cancelOnError: cancelOnError,
   );
-  return Worker(sub.cancel, '[debounce]');
+  return Worker(sub.cancel, '[debounce]', showLog);
 }
 
+/// 响应式变量副作用对象
+///
+/// 提示：如果你在控制器中创建一个副作用函数，你不需要在[onClose]中进行销毁，当控制器被删除后，
+/// Getx会自动清理副作用函数。
+///
+/// 注意：开发者工具存在延迟现象，销毁后再进行一些操作才可能会刷新。
 class Worker {
-  Worker(this.worker, this.type);
+  Worker(this.worker, this.type, this.showLog);
 
   /// subscription.cancel() callback
   final Future<void> Function() worker;
 
   /// type of worker (debounce, interval, ever)..
   final String type;
+
+  /// 是否显示日志
+  final bool showLog;
+
   bool _disposed = false;
 
-  bool get disposed => _disposed;
-
-  //final bool _verbose = true;
   void _printLog(String msg) {
-    //  if (!_verbose) return;
-    _getxLog('$runtimeType $type $msg');
+    _getxLog('$runtimeType $type $msg', showLog: showLog);
   }
 
-  void dispose() {
+  /// 手动销毁副作用函数
+  Future<void> dispose() async {
     if (_disposed) {
       _printLog('already disposed');
       return;
     }
     _disposed = true;
-    worker();
+    await worker();
     _printLog('disposed');
   }
-
-  void call() => dispose();
 }
