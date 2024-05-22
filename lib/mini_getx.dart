@@ -43,11 +43,7 @@ part 'get_state_manager/simple/list_notifier.dart';
 
 part 'get_state_manager/simple/simple_builder.dart';
 
-part 'get_utils/extensions/context_extensions.dart';
-
 part 'get_utils/extensions/num_extensions.dart';
-
-part 'get_utils/get_utils/get_utils.dart';
 
 part 'get_utils/platform/platform.dart';
 

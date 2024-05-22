@@ -20,11 +20,11 @@ class Controller extends GetxController {
     );
 
     List.generate(
-        1000000,
+        1000,
         (index) => _workerList.add(ever(
               count,
               (v) {
-                var i = count;
+                i(count);
               },
               showLog: false,
             )));
@@ -63,12 +63,6 @@ class _WorkerTestPageState extends State<WorkerTestPage> {
       body: Center(
         child: Column(
           children: [
-            ElevatedButton(
-              onPressed: () {
-                i(Get.instances);
-              },
-              child: const Text('获取所有controller'),
-            ),
             ElevatedButton(
               onPressed: () {
                 Get.put(Controller());
@@ -133,11 +127,11 @@ class _ChildPageState extends State<_ChildPage> {
     );
 
     List.generate(
-        1000000,
+        1000,
         (index) => _workerList.add(ever(
               c.count,
               (v) {
-                var i = c.count;
+                i(v);
               },
               showLog: false,
             )));

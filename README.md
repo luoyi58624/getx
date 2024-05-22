@@ -1,14 +1,12 @@
-精简getx，仅包含响应式状态管理、以及一些很方便工具扩展函数，移除路由、依赖绑定、http请求、GetBuilder、Getx等api
+精简getx，仅包含响应式状态管理，移除router、binding、http、GetBuilder、Getx、ContextExt、GetUtils等所有与核心响应式无关的api
 
 # 保留了哪些？
 
-- obs 响应式变量
-- Get.put、Get.find 依赖注入、依赖获取
-- ever、once、interval... 响应式副作用函数，全部都保留
-- context 扩展函数
-- num 扩展函数
-- get_util 工具类
-- platform 获取平台类型工具类
+obs、Obx 响应式变量、跟踪响应式变量Widget
+Get.put、Get.find 依赖注入、依赖获取
+ever、once、interval... 响应式副作用函数
+platform 获取平台类型工具类
+num 扩展函数，仅包含 delay 函数
 
 # 计数器示例
 

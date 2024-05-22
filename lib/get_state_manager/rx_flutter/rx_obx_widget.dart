@@ -1,7 +1,5 @@
 part of '../../mini_getx.dart';
 
-typedef WidgetCallback = Widget Function();
-
 /// The [_ObxWidget] is the base for all GetX reactive widgets
 ///
 /// See also:
@@ -19,7 +17,7 @@ abstract class _ObxWidget extends _ObxStatelessWidget {
 /// final _name = "GetX".obs;
 /// Obx(() => Text( _name.value )),... ;
 class Obx extends _ObxWidget {
-  final WidgetCallback builder;
+  final Widget Function() builder;
 
   const Obx(this.builder, {super.key});
 

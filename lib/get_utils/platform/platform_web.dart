@@ -1,5 +1,4 @@
 // ignore: avoid_web_libraries_in_flutter
-import 'package:mini_getx/mini_getx.dart';
 import 'package:web/web.dart' as html;
 
 html.Navigator _navigator = html.window.navigator;
@@ -20,7 +19,7 @@ class GeneralPlatform {
 
   static bool get isIOS {
     // maxTouchPoints is needed to separate iPad iOS13 vs new MacOS
-    return GetUtils.hasMatch(_navigator.platform, r'/iPad|iPhone|iPod/') ||
+    return RegExp(r'/iPad|iPhone|iPod/').hasMatch(_navigator.platform) ||
         (_navigator.platform == 'MacIntel' && _navigator.maxTouchPoints > 1);
   }
 
