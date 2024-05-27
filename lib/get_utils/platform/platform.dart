@@ -2,19 +2,42 @@ part of '../../mini_getx.dart';
 
 // ignore: avoid_classes_with_only_static_members
 class GetPlatform {
+  /// macos、macos web
   static final bool isMacOS = GeneralPlatform.isMacOS;
 
+  /// windows、windows web
   static final bool isWindows = GeneralPlatform.isWindows;
 
+  /// linux、linux web
   static final bool isLinux = GeneralPlatform.isLinux;
 
+  /// android、android web
   static final bool isAndroid = GeneralPlatform.isAndroid;
 
+  /// ios、ios web
   static final bool isIOS = GeneralPlatform.isIOS;
 
-  static final bool isFuchsia = GeneralPlatform.isFuchsia;
+  /// fuchsia、fuchsia web
+  static bool isFuchsia = GeneralPlatform.isFuchsia;
 
-  static final bool isMobile = GetPlatform.isIOS || GetPlatform.isAndroid;
+  /// mobile、mobile web
+  static final bool isMobile = isIOS || isAndroid;
 
-  static final bool isDesktop = GetPlatform.isMacOS || GetPlatform.isWindows || GetPlatform.isLinux;
+  /// desktop、macos web
+  static final bool isDesktop = isMacOS || isWindows || isLinux;
+
+  /// ios、ios web、macos、macos web
+  static final bool isApple = GeneralPlatform.isApple;
+
+  /// only mobile web
+  static final bool isMobileWeb = GeneralPlatform.isMobileWeb;
+
+  /// only desktop web
+  static final bool isDesktopWeb = GeneralPlatform.isDesktopWeb;
+
+  /// only mobile client
+  static bool isMobileClient = GeneralPlatform.isMobileClient;
+
+  /// only desktop client
+  static bool isDesktopClient = GeneralPlatform.isDesktopClient;
 }

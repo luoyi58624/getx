@@ -1,3 +1,7 @@
+## [5.0.6]
+
+GetPlatform新增更多平台变量
+
 ## [5.0.5]
 
 GetPlatform所有静态变量移除get修饰符，删除isWeb冗余变量

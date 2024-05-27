@@ -19,7 +19,17 @@ class GeneralPlatform {
   static final bool isIOS = RegExp(r'/iPad|iPhone|iPod/').hasMatch(_navigator.platform) ||
       (_navigator.platform == 'MacIntel' && _navigator.maxTouchPoints > 1);
 
-  static bool isFuchsia = false;
+  static const bool isFuchsia = false;
 
   static final bool isDesktop = isMacOS || isWindows || isLinux;
+
+  static final bool isApple = isMacOS || isIOS;
+
+  static final bool isMobileWeb = isIOS || isAndroid || isFuchsia;
+
+  static final bool isDesktopWeb = isMacOS || isWindows || isLinux;
+
+  static const bool isMobileClient = false;
+
+  static const bool isDesktopClient = false;
 }
