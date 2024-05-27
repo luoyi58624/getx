@@ -1,3 +1,7 @@
+## [5.0.5]
+
+GetPlatform所有静态变量移除get修饰符，删除isWeb冗余变量
+
 ## [5.0.4]
 
 移除GetUtils、以及context扩展，将能私有化的api全部私有化

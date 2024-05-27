@@ -2,20 +2,17 @@ import 'dart:io';
 
 // ignore: avoid_classes_with_only_static_members
 class GeneralPlatform {
-  static bool get isWeb => false;
+  static final bool isMacOS = Platform.isMacOS;
 
-  static bool get isMacOS => Platform.isMacOS;
+  static final bool isWindows = Platform.isWindows;
 
-  static bool get isWindows => Platform.isWindows;
+  static final bool isLinux = Platform.isLinux;
 
-  static bool get isLinux => Platform.isLinux;
+  static final bool isAndroid = Platform.isAndroid;
 
-  static bool get isAndroid => Platform.isAndroid;
+  static final bool isIOS = Platform.isIOS;
 
-  static bool get isIOS => Platform.isIOS;
+  static final bool isFuchsia = Platform.isFuchsia;
 
-  static bool get isFuchsia => Platform.isFuchsia;
-
-  static bool get isDesktop =>
-      Platform.isMacOS || Platform.isWindows || Platform.isLinux;
+  static final bool isDesktop = Platform.isMacOS || Platform.isWindows || Platform.isLinux;
 }

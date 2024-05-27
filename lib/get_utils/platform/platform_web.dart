@@ -5,25 +5,21 @@ html.Navigator _navigator = html.window.navigator;
 
 // ignore: avoid_classes_with_only_static_members
 class GeneralPlatform {
-  static bool get isWeb => true;
+  static final bool isMacOS = _navigator.appVersion.contains('Mac OS') && !isIOS;
 
-  static bool get isMacOS => _navigator.appVersion.contains('Mac OS') && !GeneralPlatform.isIOS;
+  static final bool isWindows = _navigator.appVersion.contains('Win');
 
-  static bool get isWindows => _navigator.appVersion.contains('Win');
-
-  static bool get isLinux =>
+  static final bool isLinux =
       (_navigator.appVersion.contains('Linux') || _navigator.appVersion.contains('x11')) && !isAndroid;
 
   // @check https://developer.chrome.com/multidevice/user-agent
-  static bool get isAndroid => _navigator.appVersion.contains('Android ');
+  static final bool isAndroid = _navigator.appVersion.contains('Android ');
 
-  static bool get isIOS {
-    // maxTouchPoints is needed to separate iPad iOS13 vs new MacOS
-    return RegExp(r'/iPad|iPhone|iPod/').hasMatch(_navigator.platform) ||
-        (_navigator.platform == 'MacIntel' && _navigator.maxTouchPoints > 1);
-  }
+  // maxTouchPoints is needed to separate iPad iOS13 vs new MacOS
+  static final bool isIOS = RegExp(r'/iPad|iPhone|iPod/').hasMatch(_navigator.platform) ||
+      (_navigator.platform == 'MacIntel' && _navigator.maxTouchPoints > 1);
 
-  static bool get isFuchsia => false;
+  static bool isFuchsia = false;
 
-  static bool get isDesktop => isMacOS || isWindows || isLinux;
+  static final bool isDesktop = isMacOS || isWindows || isLinux;
 }
