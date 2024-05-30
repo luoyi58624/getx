@@ -3,7 +3,6 @@
 /// injection, and route management in a quick and practical way.
 library mini_getx;
 
-import 'get_utils/platform/platform_web.dart' if (dart.library.io) 'get_utils/platform/platform_io.dart';
 import 'dart:collection';
 import 'dart:async';
 import 'dart:developer' as developer;
@@ -42,10 +41,6 @@ part 'get_state_manager/rx_flutter/rx_ticket_provider_mixin.dart';
 part 'get_state_manager/simple/list_notifier.dart';
 
 part 'get_state_manager/simple/simple_builder.dart';
-
-part 'get_utils/extensions/num_extensions.dart';
-
-part 'get_utils/platform/platform.dart';
 
 typedef _Condition = bool Function();
 

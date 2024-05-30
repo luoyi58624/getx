@@ -1,3 +1,7 @@
+## [5.0.7]
+
+移除GetPlatform、num扩展函数
+
 ## [5.0.6]
 
 GetPlatform新增更多平台变量

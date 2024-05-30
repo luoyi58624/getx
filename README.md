@@ -5,8 +5,6 @@
 1. obs、Obx 响应式变量、跟踪响应式变量Widget
 2. Get.put、Get.find 依赖注入、依赖获取
 3. ever、once、interval... 响应式副作用函数
-4. platform 获取平台类型工具类
-5. num 扩展函数，仅包含 delay 函数
 
 # 计数器示例
 

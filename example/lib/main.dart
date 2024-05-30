@@ -3,6 +3,7 @@ import 'package:example/pages/count.dart';
 import 'package:example/pages/nest_obx.dart';
 import 'package:example/pages/type_base.dart';
 import 'package:example/pages/worker_test.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import 'global.dart';
@@ -15,7 +16,7 @@ import 'pages/type_model.dart';
 void main() {
   runApp(
     DevicePreview(
-      enabled: GetPlatform.isDesktop,
+      enabled: kIsWeb,
       builder: (context) => const MainApp(), // Wrap your app
     ),
   );
