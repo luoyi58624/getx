@@ -1,6 +1,6 @@
 name: mini_getx
 description: The fork getx, this is a mini version getx, Only retain state management, remove route、connect、bing...
-version: 5.0.8
+version: 5.0.9
 homepage: https://github.com/jonataslaw/getx
 repository: https://github.com/luoyi58624/getx.git
 
@@ -10,7 +10,6 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  web: any
 
 dev_dependencies:
   flutter_lints: ^4.0.0

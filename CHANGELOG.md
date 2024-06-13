@@ -1,3 +1,7 @@
+## [5.0.9]
+
+更新文档，并移除所有第三方依赖
+
 ## [5.0.8]
 
 优化日志输出
@@ -48,16 +52,26 @@ GetPlatform所有静态变量移除get修饰符，删除isWeb冗余变量
 
 ## [5.0.0-release-candidate-2]
 
-This version adds built-in support for animation in Flutter in an easy, clear way, and without having to create a StatefulWidget with controllers and animations. All you need to do is call the name of the animation.
+This version adds built-in support for animation in Flutter in an easy, clear way, and without
+having to create a StatefulWidget with controllers and animations. All you need to do is call the
+name of the animation.
 
 If you want to add a "fadeIn" effect to any widget, simply add .fadeIn() to the end of it.
 
 ```dart
- Container(
-              color: Colors.blue,
-              height: 100,
-              width: 100,
-       ).fadeIn(),
+ Container
+(
+color: Colors.blue,
+height: 100,
+width:
+100
+,
+)
+.
+fadeIn
+(
+)
+,
 ```
 
 https://user-images.githubusercontent.com/35742643/221383556-075a0b71-1617-4a31-a3c7-1acc68732f59.mp4
@@ -65,25 +79,35 @@ https://user-images.githubusercontent.com/35742643/221383556-075a0b71-1617-4a31-
 Maybe you want to merge two or more animations, just concatenate them at the end of the widget.
 
 ```dart
- Container(
-              color: Colors.blue,
-              height: 100,
-              width: 100,
-      ).fadeIn().bounce(begin: -0.8, end: 0.3),
+ Container
+(
+color: Colors.blue,
+height: 100,
+width: 100,
+).fadeIn().bounce(begin: -0.8, end: 0.3),
 ```
 
 https://user-images.githubusercontent.com/35742643/221383613-9044c92f-7c6b-48c4-aa79-0a0c20d4068a.mp4
 
-Creating animation sequences in Flutter is one of the most painful things to do with the framework. You need to create tons of AnimationControllers. Well, using GetX 5 you just need to tell your animation that it is sequential. Just like that.
+Creating animation sequences in Flutter is one of the most painful things to do with the framework.
+You need to create tons of AnimationControllers. Well, using GetX 5 you just need to tell your
+animation that it is sequential. Just like that.
 
 ```dart
- const FlutterLogo(size: 110)
-                        .bounce(begin: -0.8, end: 0.4)
-                        .fadeIn()
-                        .spin(isSequential: true)
-                        .wobble(isSequential: true, begin: 0, end: 8)
-                        .flip(isSequential: true)
-                        .fadeOut(isSequential: true),
+ const FlutterLogo
+(
+size: 110)
+    .bounce(begin: -0.8, end: 0.4)
+    .fadeIn()
+    .spin(isSequential: true)
+    .wobble(isSequential: true, begin: 0, end: 8)
+    .flip(isSequential: true)
+    .fadeOut(
+isSequential
+:
+true
+)
+,
 ```
 
 Result:
@@ -127,43 +151,70 @@ However this had several problems:
 
 1: There was no possibility to close the page without closing the snackbar
 2: Get.back() could cause problems with tests of Get.isSnackbarOpen not being properly invoked
-3: Sometimes when using iOS popGesture with an open snackbar, some visual inconsistency might appear.
-4: When going to another route, the snackbar was not displayed on the new page, and if the user clicked on the new route as soon as he received a Snackbar, he could not read it.
+3: Sometimes when using iOS popGesture with an open snackbar, some visual inconsistency might
+appear.
+4: When going to another route, the snackbar was not displayed on the new page, and if the user
+clicked on the new route as soon as he received a Snackbar, he could not read it.
 
-We remade the Snackbar from scratch, having its Api based on Overlay, and now opening a Snackbar won't be tied to a route, you can normally navigate routes while a Snackbar is shown at the top (or bottom), and even the PopGesture of the iOS is not influenced by it.
+We remade the Snackbar from scratch, having its Api based on Overlay, and now opening a Snackbar
+won't be tied to a route, you can normally navigate routes while a Snackbar is shown at the top (or
+bottom), and even the PopGesture of the iOS is not influenced by it.
 
-Using Get.back() is handy, it's a small command, which closes routes, dialogs, snackbars, bottomsheets, etc, however Getx 5 will prioritize code safety, and splitting will reduce the check code as well. Currently we have to check if a snackbar is open, to close the snackbar and prevent the app from going back a page, all this boilerplate code will be removed, at the cost of having what it closes in front of Get.back command.
+Using Get.back() is handy, it's a small command, which closes routes, dialogs, snackbars,
+bottomsheets, etc, however Getx 5 will prioritize code safety, and splitting will reduce the check
+code as well. Currently we have to check if a snackbar is open, to close the snackbar and prevent
+the app from going back a page, all this boilerplate code will be removed, at the cost of having
+what it closes in front of Get.back command.
 
-For backwards compatibility, Get.back() still works for closing routes and overlays, however two new commands have been added: Get.closeCurrentSnackbar() and Get.closeAllSnackbars().
-Maybe we will have a clearer api in GetX 5, and maybe Get.back() will continue to do everything like it does today. The community will be consulted about the desired api. However version 5 will definitely have commands like: Get.closeCurrentSnackbar, Get.closeCurrentDialog etc. There is also the possibility to close a specific snackbar using the return of Get.snackbar, which will no longer return a void, and now return a SnackbarController.
+For backwards compatibility, Get.back() still works for closing routes and overlays, however two new
+commands have been added: Get.closeCurrentSnackbar() and Get.closeAllSnackbars().
+Maybe we will have a clearer api in GetX 5, and maybe Get.back() will continue to do everything like
+it does today. The community will be consulted about the desired api. However version 5 will
+definitely have commands like: Get.closeCurrentSnackbar, Get.closeCurrentDialog etc. There is also
+the possibility to close a specific snackbar using the return of Get.snackbar, which will no longer
+return a void, and now return a SnackbarController.
 
-Snackbars now also have a Queue, and no longer stack one on top of the other, preventing viewing. GetX now has flexible, customizable, route-independent, and completely stable Snackbars.
+Snackbars now also have a Queue, and no longer stack one on top of the other, preventing viewing.
+GetX now has flexible, customizable, route-independent, and completely stable Snackbars.
 
-Fixed bugs where the snackbar showed an error in debug mode for a fraction of a second. We found that Flutter has a bug with blur below 0.001, so we set the minimum overlayBlur value to this value if it is ==true.
+Fixed bugs where the snackbar showed an error in debug mode for a fraction of a second. We found
+that Flutter has a bug with blur below 0.001, so we set the minimum overlayBlur value to this value
+if it is ==true.
 
-Errors with internationalization were also fixed, where if you are in UK, and the app had the en_US language, you didn't have American English by default. Now, if the country code is not present, it will automatically fetch the language code before fetching a fallbackLanguage.
+Errors with internationalization were also fixed, where if you are in UK, and the app had the en_US
+language, you didn't have American English by default. Now, if the country code is not present, it
+will automatically fetch the language code before fetching a fallbackLanguage.
 
-Update locale also now returns a Future, allowing you to perform an action only when the language has already changed (@MHosssam)
+Update locale also now returns a Future, allowing you to perform an action only when the language
+has already changed (@MHosssam)
 
-We are very happy to announce that GetX is now documented in Japanese as well, thanks to (@toshi-kuji)
+We are very happy to announce that GetX is now documented in Japanese as well, thanks to (
+@toshi-kuji)
 
-GetX has always been focused on transparency. You can tell what's going on with your app just by reading the logs on the console. However, these logs shouldn't appear in production, so it now only appears in debug mode (@maxzod)
+GetX has always been focused on transparency. You can tell what's going on with your app just by
+reading the logs on the console. However, these logs shouldn't appear in production, so it now only
+appears in debug mode (@maxzod)
 
-@maxzod has also started translating the docs into Arabic, we hope the documentation will be complete soon.
+@maxzod has also started translating the docs into Arabic, we hope the documentation will be
+complete soon.
 
 Some remaining package logs have been moved to Get.log (@gairick-saha)
 
 RxList.removeWhere received performance optimizations (@zuvola)
 
-Optimizations in GetConnect and added the ability to modify all request items in GetConnect (@rodrigorahman)
+Optimizations in GetConnect and added the ability to modify all request items in GetConnect (
+@rodrigorahman)
 
-The current route could be inconsistent if a dialog were opened after a transition, fixed by @xiangzy1
+The current route could be inconsistent if a dialog were opened after a transition, fixed by
+@xiangzy1
 
 Fixed try/catch case missed in socket_notifier (@ShookLyngs)
 
 Also we had fixes in the docs: @DeathGun3344 @pinguluk
 
-GetX also surpassed the incredible mark of more than 7000 likes, being the most liked package in all pub.dev, went from 99% to 100% popularity, and has more than 5.3k stars on github. Documentation is now available in 12 languages, and we're happy for all the engagement from your community.
+GetX also surpassed the incredible mark of more than 7000 likes, being the most liked package in all
+pub.dev, went from 99% to 100% popularity, and has more than 5.3k stars on github. Documentation is
+now available in 12 languages, and we're happy for all the engagement from your community.
 
 This update is a preparation update for version 5, which will be released later this year.
 
@@ -244,11 +295,19 @@ dismissDirection now gets a DismissDirection, making the Snackbar more customiza
 
 ## [4.2.0] - Big update
 
-This update fixes important bugs as well as integrates with Navigator 2. It also adds GetRouterOutlet, similar to angular RouterOutlet thanks to @ahmednfwela. Also, the documentation translation for Vietnamese (@khangahs) has been added, making the GetX documentation available for 11 different languages, which is just fantastic for any opensource project. GetX has achieved more than 5.4k likes from the pub, and more than 4k stars on github, has videos about it with 48k on youtube, and has communities in the 4 hemispheres of the earth, besides having a large list of contributors as you see bellow. We're all happy to facilitate development with dart and flutter, and that making programming hassle-free has been taken around the world.
+This update fixes important bugs as well as integrates with Navigator 2. It also adds
+GetRouterOutlet, similar to angular RouterOutlet thanks to @ahmednfwela. Also, the documentation
+translation for Vietnamese (@khangahs) has been added, making the GetX documentation available for
+11 different languages, which is just fantastic for any opensource project. GetX has achieved more
+than 5.4k likes from the pub, and more than 4k stars on github, has videos about it with 48k on
+youtube, and has communities in the 4 hemispheres of the earth, besides having a large list of
+contributors as you see bellow. We're all happy to facilitate development with dart and flutter, and
+that making programming hassle-free has been taken around the world.
 
 Changes in this version:
 
-- Fix: Navigating to the same page with Get.offNamed does not delete the controller from that page using Get.lazyPut.
+- Fix: Navigating to the same page with Get.offNamed does not delete the controller from that page
+  using Get.lazyPut.
 
 - Fix Readme GetMiddleware typos
   by @nivisi
@@ -280,7 +339,8 @@ Changes in this version:
 - Fix Redundant concatenating base url
   by @jasonlaw
 
-- Add content type and length into the headers when the content type is 'application/x-www-form-urlencoded'
+- Add content type and length into the headers when the content type is '
+  application/x-www-form-urlencoded'
   by @calvingit
 
 - Make withCredentials configurable
@@ -352,7 +412,8 @@ Changes in this version:
 - Fix initial value of nullables (@RafaRuiz)
 - Improve error message to navigation (@maxzod)
 - Fix typo on docs (@Rahulshahare)
-- Fixed darktheme being changed only through Get.changeTheme and not through the DarkTheme theme property in MaterialApp (@GoldenSoju)
+- Fixed darktheme being changed only through Get.changeTheme and not through the DarkTheme theme
+  property in MaterialApp (@GoldenSoju)
 - Fix controller is removed when navigate to same page (@eduardoflorence)
 - Fix missing reload() and reloadAll() to Get extensions (@lkloon123)
 
@@ -378,7 +439,8 @@ Changes in this version:
 
 ## [4.0.0]
 
-- Added append function to StateMixin. Now is possible track loading, success and error handle of your application with ONE LINE OF CODE. Ex: append(()=> api.getUser);
+- Added append function to StateMixin. Now is possible track loading, success and error handle of
+  your application with ONE LINE OF CODE. Ex: append(()=> api.getUser);
 - Migrate to null-safety
 - Added ScrollMixin to controllers
 - Added loadingMore status to RxStatus
@@ -386,12 +448,15 @@ Changes in this version:
 - Made GetInstance non nullable (@eduardoflorence)
 - Fix multi-parameters url (@iMrLopez)
 - Fix Expected value of SkDeletable error (@obadajasm)
-- Added triggers, an Rx method that triggers events, even if they are the same as the previous event (@RafaRuiz)
+- Added triggers, an Rx method that triggers events, even if they are the same as the previous
+  event (@RafaRuiz)
 - Improve docs: (@CNAD666), (@dhhAndroid), (@Jackylee1992),
 
 Switching to null-safety:
 You can continue using GetX as normal, with as little breaking changes as possible.
-It is still possible to declare the var.obs variable, and this remains the preferred way, forcing null-safety and giving you all the security that sound null-safety delivers to your app. However, if you need to use null, we also provide a solution for you.
+It is still possible to declare the var.obs variable, and this remains the preferred way, forcing
+null-safety and giving you all the security that sound null-safety delivers to your app. However, if
+you need to use null, we also provide a solution for you.
 Declare the variables with `?` Ex: `final Rx<int?> count = 0.obs`.
 You can also use custom Rxn types with null-safety:
 `RxInt` == not nullable
@@ -429,17 +494,22 @@ You can also use custom Rxn types with null-safety:
 ## [3.25.0] - Big update
 
 - Added [reload] and [reloadAll] methods to reload your Controller to original values
-- Added [FullLifeCycleController] - A GetxController capable of observing all the life cycles of your application. FullLifeCycleController has the life cycles:
-  - onInit: called when the controller enters the application's memory
-  - onReady: called after onInit, when build method from widget relationed to controller is done.
-  - onClose: called when controller is deleted from memory.
-  - onPaused: called when the application is not currently visible to the user, and running in the background.
-  - onInactive: called when the application is in an inactive state and is not receiving user input, when the user receives a call, for example
-  - onResumed: The application is now visible and in the foreground
-  - onDetached: The application is still hosted on a flutter engine but is detached from any host views.
-  - didChangeMetrics: called when the window size is changed
+- Added [FullLifeCycleController] - A GetxController capable of observing all the life cycles of
+  your application. FullLifeCycleController has the life cycles:
+    - onInit: called when the controller enters the application's memory
+    - onReady: called after onInit, when build method from widget relationed to controller is done.
+    - onClose: called when controller is deleted from memory.
+    - onPaused: called when the application is not currently visible to the user, and running in the
+      background.
+    - onInactive: called when the application is in an inactive state and is not receiving user
+      input, when the user receives a call, for example
+    - onResumed: The application is now visible and in the foreground
+    - onDetached: The application is still hosted on a flutter engine but is detached from any host
+      views.
+    - didChangeMetrics: called when the window size is changed
 - Added SuperController, a complete life circle controller with StateMixin
-- Improve Iterable Rx Api. Now, you can to use dart List, Map and Set as reactive, like: List<String> names = <String>['juan', 'pedro', 'maria'].obs;
+- Improve Iterable Rx Api. Now, you can to use dart List, Map and Set as reactive, like:
+  List<String> names = <String>['juan', 'pedro', 'maria'].obs;
 - Added assign and assignAll extensions to default dart List
 - Added parameters options from Get.toNamed, Get.offNamed, and Get.offAllNamed (@enghitalo)
 - Improve Rx disposal logic to completely prevent memory leaks
@@ -458,27 +528,40 @@ You can also use custom Rxn types with null-safety:
 - Create minified version to DartPad(@roipeker)
 - Suggested to use `Get.to(() => Page())` instead of `Get.to(Page())`.
 - Added more status codes to GetConnect (@romavic)
-- Fix and improve docs: @unacorbatanegra, @lsm, @nivisi, @ThinkDigitalSoftware, @martwozniak, @UsamaElgendy, @@DominusKelvin, @jintak0401, @goondeal
+- Fix and improve docs: @unacorbatanegra, @lsm, @nivisi, @ThinkDigitalSoftware, @martwozniak,
+  @UsamaElgendy, @@DominusKelvin, @jintak0401, @goondeal
 
 ## [3.24.0]
 
 - GetWidget has been completely redesigned.
-  Throughout its lifetime, GetWidget has always been mentioned in the documentation as "something you shouldn't use unless you're sure you need it", and it had a very small use case. A short time ago we realized that it could have some unexpected behaviors, when compared to GetView, so we decided to rebuild it from scratch, creating a really useful widget for the ecosystem.
-  Objectively, GetWidget is now a Widget that caches the controller and protects children from their parents' reconstructions. This means that if you have a ListView or gridview, you can add items to it without the child (being a GetWidget) being rebuilt. The api is now more concise, as you can use Get.put / Get.lazyput for global dependencies, and Get.create with GetWidget for ephemeral dependencies, or when you need several identical controllers for the same widget, eliminating the need for tags for most cases.
+  Throughout its lifetime, GetWidget has always been mentioned in the documentation as "something
+  you shouldn't use unless you're sure you need it", and it had a very small use case. A short time
+  ago we realized that it could have some unexpected behaviors, when compared to GetView, so we
+  decided to rebuild it from scratch, creating a really useful widget for the ecosystem.
+  Objectively, GetWidget is now a Widget that caches the controller and protects children from their
+  parents' reconstructions. This means that if you have a ListView or gridview, you can add items to
+  it without the child (being a GetWidget) being rebuilt. The api is now more concise, as you can
+  use Get.put / Get.lazyput for global dependencies, and Get.create with GetWidget for ephemeral
+  dependencies, or when you need several identical controllers for the same widget, eliminating the
+  need for tags for most cases.
 
-- Workers now have error handlers, so if an error occurs in your stream, you can recover it from your workers.
+- Workers now have error handlers, so if an error occurs in your stream, you can recover it from
+  your workers.
 
-- `isTrue` and `isFalse` setters were added to [RxBool], this will make the code more readable, and will mitigate the use of ".value" in Booleans.
+- `isTrue` and `isFalse` setters were added to [RxBool], this will make the code more readable, and
+  will mitigate the use of ".value" in Booleans.
 
 - [Patch] method was added in GetConnect.
 
 - Native methods for RxString (trim, contains, startWith, etc.) have been added.
-- Standard constructors for RxList and RxMap have been added (RxList.generate, RxList.from, Map.of, Map.from, etc).
+- Standard constructors for RxList and RxMap have been added (RxList.generate, RxList.from, Map.of,
+  Map.from, etc).
 
 - Added "onEmpty" status in StateMixin (@alizera)
 
 - Added query and mutation methods of graphql for getconnect.
-- Added body string for content-type application/x-www-form-urlencoded on GetConnect (@eduardoflorence)
+- Added body string for content-type application/x-www-form-urlencoded on GetConnect (
+  @eduardoflorence)
 
 ## [3.23.1]
 
@@ -539,65 +622,76 @@ Or bytes (Flutter web work only with bytes):
 
 ## [3.21.0] - Big update
 
-- This update attaches two nice features developed by (@SchabanBo): _GetPage Children_ And _GetMiddleware_
+- This update attaches two nice features developed by (@SchabanBo): _GetPage Children_ And
+  _GetMiddleware_
   In previous versions, to create child pages, you should do something like:
 
 ```dart
-GetPage(
-  name: '/home',
-  page: () => HomeView(),
-  binding: HomeBinding(),
+GetPage
+(
+name: '/home',
+page: () => HomeView(),
+binding: HomeBinding(),
 ),
 GetPage(
-  name: '/home/products',
-  page: () => ProductsView(),
-  binding: ProductsBinding(),
+name: '/home/products',
+page: () => ProductsView(),
+binding: ProductsBinding(),
 ),
 GetPage(
-  name: '/home/products/electronics',
-  page: () => ElectronicsView(),
-  binding: ElectronicsBinding(),
-),
+name: '/home/products/electronics',
+page: () => ElectronicsView(),
+binding: ElectronicsBinding(),
+)
+,
 ```
 
 Although the feature works well, it could be improved in several ways:
-1- If you had many pages, the page file could become huge and difficult to read. Besides, it was difficult to know which page was the daughter of which module.
+1- If you had many pages, the page file could become huge and difficult to read. Besides, it was
+difficult to know which page was the daughter of which module.
 2- It was not possible to delegate the function of naming routes to a subroutine file.
-With this update, it is possible to create a declarative structure, very similar to the Flutter widget tree for your route, which might look like this:
+With this update, it is possible to create a declarative structure, very similar to the Flutter
+widget tree for your route, which might look like this:
 
 ```dart
+GetPage
+(
+name: '/home',
+page: () => HomeView(),
+binding: HomeBinding(),
+children: [
 GetPage(
-      name: '/home',
-      page: () => HomeView(),
-      binding: HomeBinding(),
-      children: [
-        GetPage(
-            name: '/products',
-            page: () => ProductsView(),
-            binding: ProductsBinding(),
-            children: [
-              GetPage(
-                 name: '/electronics',
-                 page: () => ElectronicsView(),
-                 binding: ElectronicsBinding(),
-              ),
-            ],
-          ),
-      ],
-  );
+name: '/products',
+page: () => ProductsView(),
+binding: ProductsBinding(),
+children: [
+GetPage(
+name: '/electronics',
+page: () => ElectronicsView(),
+binding: ElectronicsBinding(),
+),
+],
+),
+],
+);
 ```
 
 Thus, when accessing the url: '/home/products/electronics'
-Or use Get.toNamed('/home/products/electronics') it will go directly to the page [ElectronicsView], because the child pages, automatically inherit the name of the ancestral page, so _with any small change on any father in the tree all children will be updated._ If you change [/products] to [/accessories], you don't nesse update on all child links.
+Or use Get.toNamed('/home/products/electronics') it will go directly to the page [ElectronicsView],
+because the child pages, automatically inherit the name of the ancestral page, so _with any small
+change on any father in the tree all children will be updated._ If you change [/products]
+to [/accessories], you don't nesse update on all child links.
 
 However, the most powerful feature of this version is _GetMiddlewares_.
-The GetPage has now new property that takes a list of GetMiddleWare than can perform actions and run them in the specific order.
+The GetPage has now new property that takes a list of GetMiddleWare than can perform actions and run
+them in the specific order.
 
 ### Priority
 
 The Order of the Middlewares to run can pe set by the priority in the GetMiddleware.
 
 ```dart
+
 final middlewares = [
   GetMiddleware(priority: 2),
   GetMiddleware(priority: 5),
@@ -610,10 +704,11 @@ those middlewares will be run in this order **-8 => 2 => 4 => 5**
 
 ### Redirect
 
-This function will be called when the page of the called route is being searched for. It takes RouteSettings as a result to redirect to. Or give it null and there will be no redirecting.
+This function will be called when the page of the called route is being searched for. It takes
+RouteSettings as a result to redirect to. Or give it null and there will be no redirecting.
 
 ```dart
-GetPage redirect( ) {
+GetPage redirect() {
   final authService = Get.find<AuthService>();
   return authService.authed.value ? null : RouteSettings(name: '/login')
 }
@@ -660,11 +755,13 @@ GetPageBuilder onPageBuildStart(GetPageBuilder page) {
 
 ### OnPageBuilt
 
-This function will be called right after the GetPage.page function is called and will give you the result of the function. and take the widget that will be showed.
+This function will be called right after the GetPage.page function is called and will give you the
+result of the function. and take the widget that will be showed.
 
 ### OnPageDispose
 
-This function will be called right after disposing all the related objects (Controllers, views, ...) of the page.
+This function will be called right after disposing all the related objects (Controllers, views, ...)
+of the page.
 
 ## [3.20.1]
 
@@ -681,13 +778,21 @@ This function will be called right after disposing all the related objects (Cont
 * Make http requests (GET, PUT, POST, DELETE).
 * Add request modifiers (like attaching a token to each request made).
 * Add answer modifiers (how to change a value field whenever the answer arrives)
-* Add an authenticator, if the answer is 401, you can configure the renewal of your JWT, for example, and then it will again make the http request.
+* Add an authenticator, if the answer is 401, you can configure the renewal of your JWT, for
+  example, and then it will again make the http request.
 * Set the number of attempts for the authenticator
 * Define a baseUrl for all requests
 * Define a standard encoder for your Model.
-* Note1: You will never need to use jsonEncoder. It will always be called automatically with each request. If you define an encoder for your model, it will return the instance of your model class ALREADY FILLED with server data.
-* Note2: all requests are safety, you do not need to insert try / catch in requests. It will always return a response. In case of an error code, Response.hasError will return true. The error code will always be returned, unless the error was a connection error, which will be returned Response.hasError, but with error code null.
-* These are relatively new features, and also inserted in separate containers. You don't have to use it if you don't want to. As it is relatively new, some functions, such as specific http methods, may be missing.
+* Note1: You will never need to use jsonEncoder. It will always be called automatically with each
+  request. If you define an encoder for your model, it will return the instance of your model class
+  ALREADY FILLED with server data.
+* Note2: all requests are safety, you do not need to insert try / catch in requests. It will always
+  return a response. In case of an error code, Response.hasError will return true. The error code
+  will always be returned, unless the error was a connection error, which will be returned
+  Response.hasError, but with error code null.
+* These are relatively new features, and also inserted in separate containers. You don't have to use
+  it if you don't want to. As it is relatively new, some functions, such as specific http methods,
+  may be missing.
 
 - Translation to Korean (@rws08)
 - Fix Overlays state (@eduardoflorence)
@@ -706,8 +811,10 @@ This function will be called right after disposing all the related objects (Cont
 ## [3.16.2]
 
 - Clean RxList, RxMap and RxSet implementation
-- Now when declaring an `RxList()`, it will be started empty. If you want to start a null RxList, you must use `RxList(null)`.
-  Improved GetStream to receive the same parameters as the StreamController, such as `onListen`, `onPause`, `onResume` and `onCancel`.
+- Now when declaring an `RxList()`, it will be started empty. If you want to start a null RxList,
+  you must use `RxList(null)`.
+  Improved GetStream to receive the same parameters as the StreamController, such
+  as `onListen`, `onPause`, `onResume` and `onCancel`.
 - Improve docs
 
 ## [3.16.1]
@@ -721,11 +828,18 @@ This function will be called right after disposing all the related objects (Cont
 - Fix incorrect Get.reference when pop route (@4mb1t)
 - Added Uppercase/Capital letter on GetUtils (@AleFachini)
 - Redraw the Streams api to use GetStream instead of StreamControllers. Why this change?
-  Dart provides a Streams API that is really rich. However, asynchronous streams add extra latency to ensure that events are delivered in the exact order.
-  It is not yet known whether this latency has any performance impact in mobile applications, and probably not, however, as GetX is also a server-side framework, we need to have the lowest latency at all, since our base is shared.
-  Dart also has a Synchronous Streams api that has very low latency, however, it is not suitable for use in state management for two reasons:
-  1- Synchronous Streams can only have one listen (see the issue opened by Hixie on dart lang for reference: https://github.com/dart-lang/sdk/issues/22240).
-  This means that we cannot use this api for more than one listener, which is the basis of global state management, where we aim to change the state of more than one location. You can test this with this simple snippet:
+  Dart provides a Streams API that is really rich. However, asynchronous streams add extra latency
+  to ensure that events are delivered in the exact order.
+  It is not yet known whether this latency has any performance impact in mobile applications, and
+  probably not, however, as GetX is also a server-side framework, we need to have the lowest latency
+  at all, since our base is shared.
+  Dart also has a Synchronous Streams api that has very low latency, however, it is not suitable for
+  use in state management for two reasons:
+  1- Synchronous Streams can only have one listen (see the issue opened by Hixie on dart lang for
+  reference: https://github.com/dart-lang/sdk/issues/22240).
+  This means that we cannot use this api for more than one listener, which is the basis of global
+  state management, where we aim to change the state of more than one location. You can test this
+  with this simple snippet:
 
 ```dart
 void main() {
@@ -747,7 +861,9 @@ void main() {
 }
 ```
 
-2- Even with a single listener, the dart's Synchronous Streams api cannot deliver events in the exact order. We plan to work on a PR in the future at dart-lang to address this. So if we remove the line above that causes the exception, we will have the following output in the log:
+2- Even with a single listener, the dart's Synchronous Streams api cannot deliver events in the
+exact order. We plan to work on a PR in the future at dart-lang to address this. So if we remove the
+line above that causes the exception, we will have the following output in the log:
 
 ```dart
 void main() {
@@ -770,15 +886,18 @@ void main() {
 ///////////////////// log:
 test1
 test2
+
 test3
 test4
+
 test6
 test8
 test5
 
 ```
 
-As we can see, test 4 skips to test 6, which skips to test 8, which skips to test 5. Note that test 7 didn't even appear in the log.
+As we can see, test 4 skips to test 6, which skips to test 8, which skips to test 5. Note that test
+7 didn't even appear in the log.
 
 However, if we work with GetStream, everything works as expected:
 
@@ -803,51 +922,101 @@ void main() {
 ///////////////////// log:
 test1
 test2
+
 test3
 test4
+
 test5
 test6
+
 test7
 test8
 
 ```
 
-The dart documentation is clear that this api should be used with caution, and in view of these tests, we were sure that it is not stable enough to be used as the core of our state management, nor of the websockets notifications and get_server requests.
+The dart documentation is clear that this api should be used with caution, and in view of these
+tests, we were sure that it is not stable enough to be used as the core of our state management, nor
+of the websockets notifications and get_server requests.
 
 Clarification about the controversy over benchmarks:
-In a version prior to changeLog, we talked about the 9000% difference in performance between Streams, and GetStreams that ended up causing a lot of controversy in the community.
-Initially, we would like to clarify that this does not mean that you will have mobile applications 9000% faster. Only that one of our main resources, showed itself with a high rate of requests, 9000% faster than using traditional streams. In a real world scenario, you will hardly have so many simultaneous requests.
-Skia renders frames on new devices at up to 120fps. This means that if you have a 10 second animation, you will have 1200 reconstructions. Unless you are working with animations, or something that requires rendering at the skia boundary, you won't need that much power. So this does not mean that we are revolutionizing the mobile world, only that we have created an alternative to Stream Sincronas, which works as expected, and which has satisfactory performance for low latency resources. The benchmarks are real, but that does not mean that you will have mobile applications 9000% faster, but that you have a new feature that performs at this level to use.
-For reference only, the benchmark can be found ([HERE](https://github.com/jonataslaw/getx/blob/master/test/benchmarks/benckmark_test.dart))
+In a version prior to changeLog, we talked about the 9000% difference in performance between
+Streams, and GetStreams that ended up causing a lot of controversy in the community.
+Initially, we would like to clarify that this does not mean that you will have mobile applications
+9000% faster. Only that one of our main resources, showed itself with a high rate of requests, 9000%
+faster than using traditional streams. In a real world scenario, you will hardly have so many
+simultaneous requests.
+Skia renders frames on new devices at up to 120fps. This means that if you have a 10 second
+animation, you will have 1200 reconstructions. Unless you are working with animations, or something
+that requires rendering at the skia boundary, you won't need that much power. So this does not mean
+that we are revolutionizing the mobile world, only that we have created an alternative to Stream
+Sincronas, which works as expected, and which has satisfactory performance for low latency
+resources. The benchmarks are real, but that does not mean that you will have mobile applications
+9000% faster, but that you have a new feature that performs at this level to use.
+For reference only, the benchmark can be
+found ([HERE](https://github.com/jonataslaw/getx/blob/master/test/benchmarks/benckmark_test.dart))
 
-In short: asynchronous streams from dart work perfectly, but add a latency that we want to remove on Get_server.
-Synchronous dart streams have unexpected behaviors, cannot have more than 1 listener and do not deliver events in the correct order, which completely prevents their use in mobile state managements, since you run the risk of displaying data on the wrong screen, since the last event will not always be the last event entered by the sink.
-The 9000% figures are real, however, they refer to the gross performance between Streams and GetStreams. This does not mean that this number will impact your applications, because you are unlikely to use all of that power.
+In short: asynchronous streams from dart work perfectly, but add a latency that we want to remove on
+Get_server.
+Synchronous dart streams have unexpected behaviors, cannot have more than 1 listener and do not
+deliver events in the correct order, which completely prevents their use in mobile state
+managements, since you run the risk of displaying data on the wrong screen, since the last event
+will not always be the last event entered by the sink.
+The 9000% figures are real, however, they refer to the gross performance between Streams and
+GetStreams. This does not mean that this number will impact your applications, because you are
+unlikely to use all of that power.
 
 ## [3.15.0] - Big update
 
-- **Improve Performance**: We made modifications to make GetBuilder even faster. We have improved the structure behind it so that listeners are notified faster. Perhaps in version 4.0 everything will be based on this new structure, but maintaining the power and compatibility with streams. If you want to know how much Getx is faster than pure streams or ChangeNotifier (even after the last update using LinkedList), you can create run the repository tests at: (https://github.com/jonataslaw/getx/blob/master/test/benchmarks/benckmark_test.dart)
+- **Improve Performance**: We made modifications to make GetBuilder even faster. We have improved
+  the structure behind it so that listeners are notified faster. Perhaps in version 4.0 everything
+  will be based on this new structure, but maintaining the power and compatibility with streams. If
+  you want to know how much Getx is faster than pure streams or ChangeNotifier (even after the last
+  update using LinkedList), you can create run the repository tests
+  at: (https://github.com/jonataslaw/getx/blob/master/test/benchmarks/benckmark_test.dart)
 - **Added StateMixin**
-  StateMixin allows you to change the state of the controller, and display a loading, an error message, or a widget you want with 0 boilerplate. This makes things like API/Rest communication or websocket absurdly simple, and it's a real revolution in how state management has behaved so far.
-  You no longer need to have a ternary in your code, and you don't need a widget like FutureBuilder, StreamBuilder or even Obx/GetBuilder to encompass your Visibility. This will change with the way you manage the state of your controllers, decrease your boilerplate absurdly, and give you more security in your code.
+  StateMixin allows you to change the state of the controller, and display a loading, an error
+  message, or a widget you want with 0 boilerplate. This makes things like API/Rest communication or
+  websocket absurdly simple, and it's a real revolution in how state management has behaved so far.
+  You no longer need to have a ternary in your code, and you don't need a widget like FutureBuilder,
+  StreamBuilder or even Obx/GetBuilder to encompass your Visibility. This will change with the way
+  you manage the state of your controllers, decrease your boilerplate absurdly, and give you more
+  security in your code.
 - **Added GetNotifier**
-  GetNotifier is a super and powerful ValueNotifier, which in addition to having the life cycle of the controllers, is extremely fast, and can manage a single state, as a simplified immutable state management solution.
-  In theory, the only difference between it and GetxController is the possibility of setting an initial value in the constructor's super (exactly as ValueNotifier does). If the initial value is null, use GetxController. If you need a starting value, GetNotifier can be more useful and have less boilerplate, but both serve the same purpose: to decouple your visualization layer from your presentation logic.
+  GetNotifier is a super and powerful ValueNotifier, which in addition to having the life cycle of
+  the controllers, is extremely fast, and can manage a single state, as a simplified immutable state
+  management solution.
+  In theory, the only difference between it and GetxController is the possibility of setting an
+  initial value in the constructor's super (exactly as ValueNotifier does). If the initial value is
+  null, use GetxController. If you need a starting value, GetNotifier can be more useful and have
+  less boilerplate, but both serve the same purpose: to decouple your visualization layer from your
+  presentation logic.
 - Other Fixes and improvements:
-  - Fixed GetxController is closed twice when smartManagement.full is turn on
-  - Fixed phone number validation
-  - Fixed some inconsistencies in GetWidget and the life cycle of controllers
-  - It made controller testing completely safe with navigation.
-  - Improve docs (@eduardoflorence)
-  - Improve security types on routes (@unacorbatanegra)
-  - Improve code structure with less duplicate code: (@kranfix)
-  - Fix named route erroring when route does not exist (@FiercestT)
+    - Fixed GetxController is closed twice when smartManagement.full is turn on
+    - Fixed phone number validation
+    - Fixed some inconsistencies in GetWidget and the life cycle of controllers
+    - It made controller testing completely safe with navigation.
+    - Improve docs (@eduardoflorence)
+    - Improve security types on routes (@unacorbatanegra)
+    - Improve code structure with less duplicate code: (@kranfix)
+    - Fix named route erroring when route does not exist (@FiercestT)
 
 ## [3.13.2]
 
 - Reunification of the package.
-  During the 2 week period, we try to keep this package as a compilation of smaller packages. We were successful in separating, getx is well decoupled and it was only necessary to send the internal folders as packages to pub.dev, however, it became very complicated to contribute to the package. This is because it was necessary to clone the repository, replace all pubspec packages with local paths, and after modification, return the original paths to do the PR. With that, the frequency of updates, which was about 4 to 5 days, became almost 2 weeks, and this is not legal for a community as active as Getx, which uses this package precisely in addition to being modern and performance, be constantly improving. This led contributors to the conclusion that getx works best together.
-  Additional packages will continue to be maintained, and will have the same base as the main package, however, development will take place in the full and main package, and as the addition of new features or bug fixes arrives, we will migrate to the individual packages . Getx reached the mark of 50 contributors today, more than 1500 likes in the pub, and will continue to make development easy.
+  During the 2 week period, we try to keep this package as a compilation of smaller packages. We
+  were successful in separating, getx is well decoupled and it was only necessary to send the
+  internal folders as packages to pub.dev, however, it became very complicated to contribute to the
+  package. This is because it was necessary to clone the repository, replace all pubspec packages
+  with local paths, and after modification, return the original paths to do the PR. With that, the
+  frequency of updates, which was about 4 to 5 days, became almost 2 weeks, and this is not legal
+  for a community as active as Getx, which uses this package precisely in addition to being modern
+  and performance, be constantly improving. This led contributors to the conclusion that getx works
+  best together.
+  Additional packages will continue to be maintained, and will have the same base as the main
+  package, however, development will take place in the full and main package, and as the addition of
+  new features or bug fixes arrives, we will migrate to the individual packages . Getx reached the
+  mark of 50 contributors today, more than 1500 likes in the pub, and will continue to make
+  development easy.
 
 ## [3.13.1]
 
@@ -881,7 +1050,9 @@ The 9000% figures are real, however, they refer to the gross performance between
 - Remove unnecessary files on git (@nipodemos)
 - Fix tags on Get.create() and GetWidget() (@roipeker)
 - Update mockito dependency on getTests
-- Added GetStatelessWidget, a StatelessWidget base to GetWidget with lifecycle control of controllers. Note: It's a base class, you don't need change to use it or change your GetView, GetWidget StatelessWidget to It.
+- Added GetStatelessWidget, a StatelessWidget base to GetWidget with lifecycle control of
+  controllers. Note: It's a base class, you don't need change to use it or change your GetView,
+  GetWidget StatelessWidget to It.
 
 ## [3.11.1]
 
@@ -889,11 +1060,14 @@ The 9000% figures are real, however, they refer to the gross performance between
 
 ## [3.11.0]
 
-- Refactor structure from scratch to split GetX completely into separate packages. When using the main package (get) you will have everything working perfectly together. However, if you only want one of the resources, you can use the packages separately.
+- Refactor structure from scratch to split GetX completely into separate packages. When using the
+  main package (get) you will have everything working perfectly together. However, if you only want
+  one of the resources, you can use the packages separately.
 - Improve Rx types
 - Added RTL support
 - Added GetTests, a set of tools to help you create unit tests using Getx
-- RAM consumption improved by dividing resources into smaller components, preventing related classes that are unnecessary from being loaded
+- RAM consumption improved by dividing resources into smaller components, preventing related classes
+  that are unnecessary from being loaded
 - Fix example app (missing activity) (@Grohden)
 - Added Get.create() lifecycle (@roipeker)
 - Added section Contribution videos and articles in Readme (@stefandevo)
@@ -929,10 +1103,12 @@ Getx 3.10 released with CLI and Get Server.
 - renamed and added defaults transition duration and types in "GetInterface" (@roipeker)
 - added missing parameters in Get.to/Get.offAll (@roipeker)
 - added optional transitionDuration and transitionCurve to Get.dialog() (@roipeker)
-- Changed HashMap<int,GetStateUpdate> to HashSet<GetStateUpdate> and allow update IDs groups on GetBuilder (@roipeker)
+- Changed HashMap<int,GetStateUpdate> to HashSet<GetStateUpdate> and allow update IDs groups on
+  GetBuilder (@roipeker)
 - Added a internal VoidCallback in GetStateUpdaterMixin::getUpdate (@roipeker)
 - Added Curve property to routes (@roipeker)
-- Improve docs, code cleanup, new GetStateUpdaterMixin and GetStateUpdate in favour of StateSetter on GetxController, GetBuilder, SimpleBuilder. (@roipeker)
+- Improve docs, code cleanup, new GetStateUpdaterMixin and GetStateUpdate in favour of StateSetter
+  on GetxController, GetBuilder, SimpleBuilder. (@roipeker)
 - Added RxBool.toggle() as an easy shortcut for switching true/false values. (@roipeker)
 - Added \_RxImp.nil() to easily set the value to null (@roipeker)
 - Added missing docs to Rx classes. (@roipeker)
@@ -951,22 +1127,35 @@ Getx 3.10 released with CLI and Get Server.
   example:
 
 ```dart
- Get.snackbar('title', 'message', snackbarStatus: (status) {
-                  if (status == SnackbarStatus.CLOSED) {
-                    // made anything
-                  }
-                });
+ Get.snackbar
+('title
+'
+,
+'
+message
+'
+, snackbarStatus: (status) {
+if (status == SnackbarStatus.CLOSED) {
+// made anything
+}
+});
 ```
 
 ## [3.7.0]
 
 - Added: RxSet. Sets can now also be reactive.
 - Added isDesktop/isMobile (@roipeker)
-- Improve GetPlatform: It is now possible to know which device the user is using if GetPlatform.isWeb is true.
-  context.responsiveValue used device orientation based on web and non-web applications. Now it checks if it is a desktop application (web or desktop application) to do the responsiveness calculation. (@roipeker)
-- Change: The documentation previously stated that Iterables should not access the ".value" property.
-  However, many users did not pay attention to this fact, and ended up generating unnecessary issues and bugs in their application.
-  In this version, we focus on code security. Now ".value" is protected, so it cannot be accessed externally by Lists, Maps or Sets.
+- Improve GetPlatform: It is now possible to know which device the user is using if
+  GetPlatform.isWeb is true.
+  context.responsiveValue used device orientation based on web and non-web applications. Now it
+  checks if it is a desktop application (web or desktop application) to do the responsiveness
+  calculation. (@roipeker)
+- Change: The documentation previously stated that Iterables should not access the ".value"
+  property.
+  However, many users did not pay attention to this fact, and ended up generating unnecessary issues
+  and bugs in their application.
+  In this version, we focus on code security. Now ".value" is protected, so it cannot be accessed
+  externally by Lists, Maps or Sets.
 - Change: Observable lists are now Dart Lists.
   There is no difference in your use:
   `RxList list = [].obs;`
@@ -979,20 +1168,29 @@ Getx 3.10 released with CLI and Get Server.
   Example:
 
 ```dart
-var name = "Jonny" .obs;
+
+var name = "Jonny".obs;
 // usage:
-Text ("$name");
+Text
+("$name");
 
 var count = 0.obs;
 // usage:
 increment() => count ++;
-Text("$count");
+Text("$
+count
+"
+);
 ```
 
-Thus: List, Map, Set, num, int, double and String, as of this release, will no longer use the .value property.
+Thus: List, Map, Set, num, int, double and String, as of this release, will no longer use the .value
+property.
 
 NOTE:
-The changes were not break changes, however, you may have missed the details of the documentation, so if you faced the message: "The member 'value' can only be used within instance members of subclasses of 'rx_list.dart' "you just need to remove the" .value "property from your list, and everything will work as planned.
+The changes were not break changes, however, you may have missed the details of the documentation,
+so if you faced the message: "The member 'value' can only be used within instance members of
+subclasses of 'rx_list.dart' "you just need to remove the" .value "property from your list, and
+everything will work as planned.
 The same goes for Maps and Sets.
 
 ## [3.6.2]
@@ -1032,7 +1230,8 @@ The same goes for Maps and Sets.
 
 ## [3.4.4]
 
-- Fix exception 'isInit called null' when tags are used in conjunction with dependencies. (@djade007)
+- Fix exception 'isInit called null' when tags are used in conjunction with dependencies. (
+  @djade007)
 - Fix typos (@tiagocpeixoto)
 
 ## [3.4.3]
@@ -1061,7 +1260,9 @@ The same goes for Maps and Sets.
 - Fix extensions (@stefandevo)
 - Added CPF to utils options (@kauemurakami)
 - Added fenix mode to Get.lazyPut.
-  Use `Get.lazyPut<Controller>(()=> Controller(), fenix:true)` to have a controller that after being destroyed, has the ability to be recreated in case someone needs it. This is a function that already exists in smartManagement.keepFactory which is now also possible in full mode.
+  Use `Get.lazyPut<Controller>(()=> Controller(), fenix:true)` to have a controller that after being
+  destroyed, has the ability to be recreated in case someone needs it. This is a function that
+  already exists in smartManagement.keepFactory which is now also possible in full mode.
 - Fix native transition on android
 
 ## [3.2.2]
@@ -1076,18 +1277,35 @@ The same goes for Maps and Sets.
 
 - Improve GetBuilder ram usage
 - Added method update to Rx
-  Now you no longer need to make an entire class reactive to get an element update from it, you can simply call the update method of its instance, like this:
+  Now you no longer need to make an entire class reactive to get an element update from it, you can
+  simply call the update method of its instance, like this:
 
 ```dart
-class User{
-  User(this.name = '', this.age = 0);
-  String name;
-  int age;
+class User {
+  User
+
+  (
+
+  this
+
+      .
+
+  name = '', this.age = 0);
+
+  String
+
+  name;
+
+  int
+
+  age;
 }
 
 final user = User().obs;
 
-Obx(()=> Text("Name ${user.value.name}: Age: ${user.value.age}"))
+Obx
+(
+()=> Text("Name ${user.value.name}: Age: ${user.value.age}"))
 
 // To update:
 user.update((user){
@@ -1100,13 +1318,25 @@ Now is also possible to access a value without using the ".value". Just open and
 In the previous example, you could do:
 
 ```dart
-user().name; // before: user.value.name
+user
+().name; // before: user.value.name
 ```
 
-And it is also possible to set a value without using the value, inserting the value directly into the variable.
+And it is also possible to set a value without using the value, inserting the value directly into
+the variable.
 
 ```dart
-user(User('João', 35)); // before: user.value = User('João', 35)
+user
+(
+User
+(
+'
+João
+'
+,
+35
+)
+); // before: user.value = User('João', 35)
 ```
 
 Added fenix mode to Get.lazyPut.
@@ -1135,9 +1365,11 @@ Added fenix mode to Get.lazyPut.
 
 ## [3.0.1]
 
-- Breaking changes on Rx api and GetController and RxController were merged, and now you only have the 'GetxController'
+- Breaking changes on Rx api and GetController and RxController were merged, and now you only have
+  the 'GetxController'
 - Refactor routing system. Now you can add custom transitions and more
-- Improved the use of dynamic routes, you can now define two different pages according to your arguments.
+- Improved the use of dynamic routes, you can now define two different pages according to your
+  arguments.
 - Added GetView widget
 - Added internacionalization
 - Added validations
@@ -1204,17 +1436,27 @@ Added fenix mode to Get.lazyPut.
 ## [2.11.0]
 
 - Added Permissions:
-  You can now revoke permissions to SmartManagement so that it cannot delete a particular controller.
+  You can now revoke permissions to SmartManagement so that it cannot delete a particular
+  controller.
   Add to Get.put (Controller(), permanent: true); to make it indelible.
-  Get.lazyPut() will not receive this resource. Initially he had it, but we saw in internal tests that it could cause problems with the bindings API. Bindings were created to initialize and delete an instance, if it were allowed to make a controller started with lazyPut permanent, copies of that Controller would be created every time Binding was called. For the safety of users, especially new users who could easily do this, it was decided that this feature will only be present in Get.put.
-- Improve: Now a controller's life cycle has no connection with the View life cycle. It is no longer called internally in an "initState", it is now called when the Controller enters memory. This means that now onInit will always be called, regardless of where you started your dependency.
+  Get.lazyPut() will not receive this resource. Initially he had it, but we saw in internal tests
+  that it could cause problems with the bindings API. Bindings were created to initialize and delete
+  an instance, if it were allowed to make a controller started with lazyPut permanent, copies of
+  that Controller would be created every time Binding was called. For the safety of users,
+  especially new users who could easily do this, it was decided that this feature will only be
+  present in Get.put.
+- Improve: Now a controller's life cycle has no connection with the View life cycle. It is no longer
+  called internally in an "initState", it is now called when the Controller enters memory. This
+  means that now onInit will always be called, regardless of where you started your dependency.
 - removed: this property of the update() method has been permanently removed.
 
 ## [2.10.3]
 
-- GetBuilder refactor. 11% reduction in RAM consumption and 2% in CPU consumption for the sample application. (using as base Flutter for linux desktop).
+- GetBuilder refactor. 11% reduction in RAM consumption and 2% in CPU consumption for the sample
+  application. (using as base Flutter for linux desktop).
 
-- The "this" property of the "update" method has been deprecated and will be removed in the next update. Please don't use it anymore. Just use "update()" now.
+- The "this" property of the "update" method has been deprecated and will be removed in the next
+  update. Please don't use it anymore. Just use "update()" now.
 
 ## [2.10.2]
 
@@ -1229,9 +1471,12 @@ Added fenix mode to Get.lazyPut.
 
 - Added SmartManagement, your application's memory is managed intelligently like never before!
 - Added Obx, a widget that knows when to rebuild a child, without needing any type.
-- Added MixinBuilder - If you need to use GetBuilder in conjunction with GetX, use GetxController with this widget, and the changes will occur either using update (this) or changing some reactive variable. Use only if necessary, for better RAM consumption, prefer widgets in that order:
+- Added MixinBuilder - If you need to use GetBuilder in conjunction with GetX, use GetxController
+  with this widget, and the changes will occur either using update (this) or changing some reactive
+  variable. Use only if necessary, for better RAM consumption, prefer widgets in that order:
   Obx => GetX => GetBuilder => MixinBuilder.
-  Obx is the lightest of all, and MixinBuilder is a mix of the other 3, whenever possible, use the specific widget.
+  Obx is the lightest of all, and MixinBuilder is a mix of the other 3, whenever possible, use the
+  specific widget.
 - Refactor: StateManager of Get.
 - Changed: full List API refactor, now value is no longer needed.
 - Added Workers: You can hear changes to a variable and trigger custom callbacks.
@@ -1250,9 +1495,18 @@ Added fenix mode to Get.lazyPut.
 
 ## [2.6.3]
 
-- Flutter currently has a problem on some devices where using showModalBottomSheet() can cause TextFields to be hidden behind the keyboard (https://github.com/flutter/flutter/issues/18564) this issue is closed, even users reporting that the problem still occurs.
-  The problem happens casually, as well as the problem of the snackbar on the iPhone SE 2, and checking the code, I realized that a padding with MediaQuery.of(context).viewInsets.bottom is missing inside the bottomSheet to make it work correctly, since it does not have any constraint with the keyboard.
-  For stability, I decided not to use the standard Flutter bottomSheet, which contains many bugs, mainly related to keyboard padding, and the lack of respect for topBar's safeArea, and to use a proprietary bottomSheet implementation that is more stable. The Flutter dialog has no problem, so it will be used as the basis for Get.dialog. The bottomSheet will be based on the Flutter bottomSheet Raw API (\_ModalBottomSheetRoute), applying bug fixes.
+- Flutter currently has a problem on some devices where using showModalBottomSheet() can cause
+  TextFields to be hidden behind the keyboard (https://github.com/flutter/flutter/issues/18564) this
+  issue is closed, even users reporting that the problem still occurs.
+  The problem happens casually, as well as the problem of the snackbar on the iPhone SE 2, and
+  checking the code, I realized that a padding with MediaQuery.of(context).viewInsets.bottom is
+  missing inside the bottomSheet to make it work correctly, since it does not have any constraint
+  with the keyboard.
+  For stability, I decided not to use the standard Flutter bottomSheet, which contains many bugs,
+  mainly related to keyboard padding, and the lack of respect for topBar's safeArea, and to use a
+  proprietary bottomSheet implementation that is more stable. The Flutter dialog has no problem, so
+  it will be used as the basis for Get.dialog. The bottomSheet will be based on the Flutter
+  bottomSheet Raw API (\_ModalBottomSheetRoute), applying bug fixes.
 - Added Get.isSnackbarOpen tests
 
 ## [2.6.2]
@@ -1266,12 +1520,16 @@ Added fenix mode to Get.lazyPut.
 ## [2.6.0]
 
 - Added bindings.
-  You can now add bindings from your controllers to your routes, to prepare GetBuilder or GetX to create a dependency already declared in a Binding class. This feature is in an experimental phase, and will not be documented until the end of the tests.
+  You can now add bindings from your controllers to your routes, to prepare GetBuilder or GetX to
+  create a dependency already declared in a Binding class. This feature is in an experimental phase,
+  and will not be documented until the end of the tests.
 
 ## [2.5.10]
 
 - Removed remnants of previousArgs on routeObserver.
-  This feature had been deprecated in previous updates, and was removed in version 2.5.8. Some remaining references on the routeObserver were causing exceptions in version 2.5.9, and were removed completely in version 2.5.10.
+  This feature had been deprecated in previous updates, and was removed in version 2.5.8. Some
+  remaining references on the routeObserver were causing exceptions in version 2.5.9, and were
+  removed completely in version 2.5.10.
 
 ## [2.5.9]
 
@@ -1290,7 +1548,8 @@ Added fenix mode to Get.lazyPut.
 ## [2.5.6]
 
 - GetBuilder refactor to work with lazyPut.
-  Now you can list your controllers in advance with Get.lazyPut, and only when it is called for the first time will it be relocated in memory.
+  Now you can list your controllers in advance with Get.lazyPut, and only when it is called for the
+  first time will it be relocated in memory.
 - Fix english typos(@gumbarros)
 
 ## [2.5.5]
@@ -1596,7 +1855,10 @@ Added fenix mode to Get.lazyPut.
 
 ## [1.7.0]
 
-- Improve geral performance. Get.to Wrap now consumes even less RAM and CPU. In an application with 20 screens, it obtained 82% less RAM usage compared to the traditional method Navigator.push and had a CPU normalization of 23% in a Moto z2, against 64% CPU usage in Navigator.push with MaterialPageRoute. Test it for yourself!
+- Improve geral performance. Get.to Wrap now consumes even less RAM and CPU. In an application with
+  20 screens, it obtained 82% less RAM usage compared to the traditional method Navigator.push and
+  had a CPU normalization of 23% in a Moto z2, against 64% CPU usage in Navigator.push with
+  MaterialPageRoute. Test it for yourself!
 - Added BottomSheet with no context
 - Added modern Blur Snackbar
 - Added customs transitions
@@ -1642,8 +1904,10 @@ Added fenix mode to Get.lazyPut.
 
 - Added Get.removeRoute // ability to remove one route.
   Get.until // back repeatedly until the predicate returns true.
-  Get.offUntil // go to next route and remove all the previous routes until the predicate returns true.
-  Get.offNamedUntil // go to next named route and remove all the previous routes until the predicate returns true.
+  Get.offUntil // go to next route and remove all the previous routes until the predicate returns
+  true.
+  Get.offNamedUntil // go to next named route and remove all the previous routes until the predicate
+  returns true.
 
 ## [1.3.4]
 
