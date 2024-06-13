@@ -50,55 +50,64 @@ class HomePage extends StatelessWidget {
           children: [
             ElevatedButton(
               onPressed: () {
-                Navigator.of(context).push(MaterialPageRoute(builder: (context) => const CountPage()));
+                Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => const CountPage()));
               },
               child: const Text('计数器示例'),
             ),
             ElevatedButton(
               onPressed: () {
-                Navigator.of(context).push(MaterialPageRoute(builder: (context) => const TypeBasePage()));
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => const TypeBasePage()));
               },
               child: const Text('响应式变量类型示例 - 基本类型'),
             ),
             ElevatedButton(
               onPressed: () {
-                Navigator.of(context).push(MaterialPageRoute(builder: (context) => const TypeMapPage()));
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => const TypeMapPage()));
               },
               child: const Text('响应式变量类型示例 - Map类型'),
             ),
             ElevatedButton(
               onPressed: () {
-                Navigator.of(context).push(MaterialPageRoute(builder: (context) => const TypeModelPage()));
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => const TypeModelPage()));
               },
               child: const Text('响应式变量类型示例 - Model类型'),
             ),
             ElevatedButton(
               onPressed: () {
-                Navigator.of(context).push(MaterialPageRoute(builder: (context) => const TypeListBasePage()));
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => const TypeListBasePage()));
               },
               child: const Text('响应式变量类型示例 - List类型 - base'),
             ),
             ElevatedButton(
               onPressed: () {
-                Navigator.of(context).push(MaterialPageRoute(builder: (context) => const TypeListMapPage()));
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => const TypeListMapPage()));
               },
               child: const Text('响应式变量类型示例 - List类型 - map'),
             ),
             ElevatedButton(
               onPressed: () {
-                Navigator.of(context).push(MaterialPageRoute(builder: (context) => const TypeListModelPage()));
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => const TypeListModelPage()));
               },
               child: const Text('响应式变量类型示例 - List类型 - model'),
             ),
             ElevatedButton(
               onPressed: () {
-                Navigator.of(context).push(MaterialPageRoute(builder: (context) => const WorkerTestPage()));
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => const WorkerTestPage()));
               },
               child: const Text('Worker测试'),
             ),
             ElevatedButton(
               onPressed: () {
-                Navigator.of(context).push(MaterialPageRoute(builder: (context) => const NestObxPage()));
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => const NestObxPage()));
               },
               child: const Text('Obx重建范围测试'),
             ),

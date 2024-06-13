@@ -22,7 +22,8 @@ mixin _StatelessObserverComponent on StatelessElement {
 
   @override
   Widget build() {
-    return _Notifier.instance.append(_NotifyData(disposers: disposers!, updater: getUpdate), super.build);
+    return _Notifier.instance.append(
+        _NotifyData(disposers: disposers!, updater: getUpdate), super.build);
   }
 
   @override

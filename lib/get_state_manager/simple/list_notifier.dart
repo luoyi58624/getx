@@ -7,7 +7,8 @@ typedef _Disposer = void Function();
 // if it brings overhead the extra call,
 typedef _GetStateUpdate = void Function();
 
-class _ListNotifier extends Listenable with _ListNotifierSingleMixin, _ListNotifierGroupMixin {}
+class _ListNotifier extends Listenable
+    with _ListNotifierSingleMixin, _ListNotifierGroupMixin {}
 
 /// A _Notifier with single listeners
 class _ListNotifierSingle = _ListNotifier with _ListNotifierSingleMixin;
@@ -86,7 +87,8 @@ mixin _ListNotifierSingleMixin on Listenable {
 }
 
 mixin _ListNotifierGroupMixin on Listenable {
-  HashMap<Object?, _ListNotifierSingleMixin>? _updatersGroupIds = HashMap<Object?, _ListNotifierSingleMixin>();
+  HashMap<Object?, _ListNotifierSingleMixin>? _updatersGroupIds =
+      HashMap<Object?, _ListNotifierSingleMixin>();
 
   void _notifyGroupUpdate(Object id) {
     if (_updatersGroupIds!.containsKey(id)) {

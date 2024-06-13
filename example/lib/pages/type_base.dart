@@ -11,7 +11,8 @@ class Controller extends GetxController {
 
   updateDoubleType() => doubleType.value += 0.5;
 
-  updateStringType() => stringType.value = stringType.value == 'hello' ? '你好' : 'hello';
+  updateStringType() =>
+      stringType.value = stringType.value == 'hello' ? '你好' : 'hello';
 
   updateBoolType() => boolType.value = !boolType.value;
 

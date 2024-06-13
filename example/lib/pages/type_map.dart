@@ -26,7 +26,8 @@ class Controller extends GetxController {
   }.obs;
 
   /// 原理和上面基础Map的[updateAge]一样，getx对最外面一层做了拦截
-  updateNestMap(String key) => nestMap[key] = {'name': 'eeee', 'age': Random().nextInt(100)};
+  updateNestMap(String key) =>
+      nestMap[key] = {'name': 'eeee', 'age': Random().nextInt(100)};
 
   /// 更新嵌套Map中的单个属性，你必须手动调用refresh方法进行刷新，因为getx仅做了一层拦截
   updateNestFirstMapName() {
@@ -87,7 +88,8 @@ class _TypePageState extends State<TypeMapPage> {
             Obx(
               () => Column(
                 mainAxisSize: MainAxisSize.min,
-                children: c.nestMap.values.map((v) => Text(v.toString())).toList(),
+                children:
+                    c.nestMap.values.map((v) => Text(v.toString())).toList(),
               ),
             ),
             ElevatedButton(

@@ -32,7 +32,8 @@ class Controller extends GetxController {
 
   add() => list.add(User(name: 'hihi', age: 20));
 
-  updateList(int index) => list[index] = User(name: 'hihi', age: list[index].age + 1);
+  updateList(int index) =>
+      list[index] = User(name: 'hihi', age: list[index].age + 1);
 
   part(int index) => list[index] = list[index].copyWith(age: 1000);
 

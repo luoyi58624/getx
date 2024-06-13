@@ -6,7 +6,8 @@ mixin GetLifeCycleMixin {
   @protected
   @mustCallSuper
   void onInit() {
-    WidgetsFlutterBinding.ensureInitialized().addPostFrameCallback((_) => onReady());
+    WidgetsFlutterBinding.ensureInitialized()
+        .addPostFrameCallback((_) => onReady());
   }
 
   /// Called 1 frame after onInit(). It is the perfect place to enter
