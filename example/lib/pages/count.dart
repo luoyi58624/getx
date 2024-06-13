@@ -45,7 +45,8 @@ class _CountPageState extends State<CountPage> {
             ),
             ElevatedButton(
               onPressed: () {
-                Navigator.of(context).push(MaterialPageRoute(builder: (context) => Child()));
+                Navigator.of(context)
+                    .push(MaterialPageRoute(builder: (context) => Child()));
               },
               child: const Text('子页面'),
             ),

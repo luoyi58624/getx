@@ -92,7 +92,8 @@ class _WorkerTestPageState extends State<WorkerTestPage> {
             ),
             ElevatedButton(
               onPressed: () {
-                Navigator.of(context).push(MaterialPageRoute(builder: (context) => const _ChildPage()));
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => const _ChildPage()));
               },
               child: const Text('Worker子页面'),
             ),
@@ -142,11 +143,11 @@ class _ChildPageState extends State<_ChildPage> {
     super.dispose();
     _worker.dispose();
     i('开始销毁');
-    int start = DartUtil.currentMilliseconds;
+    int start = currentMilliseconds;
     for (var element in _workerList) {
       await element.dispose();
     }
-    i('销毁完成，耗时：${DartUtil.currentMilliseconds - start} 毫秒');
+    i('销毁完成，耗时：${currentMilliseconds - start} 毫秒');
   }
 
   @override
