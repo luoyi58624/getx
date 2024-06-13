@@ -1,7 +1,19 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import '../global.dart';
 
 class Controller extends GetxController {
+  /// 通过[Controller.of]的方式获取控制器实例，它不存在任何副作用，同时对性能基本没有影响，
+  /// 但推荐你在偶尔需要用到控制器的地方使用它
+  static Controller get of => Get.find();
+
+  final count = 0.obs;
+
+  addCount() => count.value++;
+}
+
+class Controller2 extends GetxController {
   /// 通过[Controller.of]的方式获取控制器实例，它不存在任何副作用，同时对性能基本没有影响，
   /// 但推荐你在偶尔需要用到控制器的地方使用它
   static Controller get of => Get.find();
@@ -19,12 +31,23 @@ class CountPage extends StatefulWidget {
 }
 
 class _CountPageState extends State<CountPage> {
-  final c = Get.put(Controller());
+  late int tag;
+  late final Controller c;
+  late final Controller2 c2;
+
+  @override
+  void initState() {
+    super.initState();
+    tag = Random().nextInt(100);
+    c = Get.put(Controller(), tag: tag.toString());
+    c2 = Get.put(Controller2(), tag: tag.toString());
+  }
 
   @override
   void dispose() {
     super.dispose();
-    Get.delete<Controller>();
+    Get.delete<Controller>(tag: tag.toString());
+    Get.delete<Controller2>(tag: tag.toString());
   }
 
   @override

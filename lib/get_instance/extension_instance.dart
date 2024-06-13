@@ -14,7 +14,11 @@ extension GetInstance on GetInterface {
     String? tag,
     bool showLog = true,
   }) {
-    _insert(isSingleton: true, name: tag, showLog: showLog, builder: (() => dependency));
+    _insert(
+        isSingleton: true,
+        name: tag,
+        showLog: showLog,
+        builder: (() => dependency));
     return find<S>(tag: tag, showLog: showLog);
   }
 
@@ -90,14 +94,15 @@ extension GetInstance on GetInterface {
       if (tag == null) {
         _getxLog('Instance "$S" has been initialized', showLog: showLog);
       } else {
-        _getxLog('Instance "$S" with tag "$tag" has been initialized', showLog: showLog);
+        _getxLog('Instance "${S}_$tag" has been initialized', showLog: showLog);
       }
     }
     return i;
   }
 
   /// if already put controller，then return controller，or put controller
-  S putOrFind<S>(InstanceBuilderCallback<S> dep, {String? tag, required bool showLog}) {
+  S putOrFind<S>(InstanceBuilderCallback<S> dep,
+      {String? tag, required bool showLog}) {
     final key = _getKey(S, tag);
 
     if (_instances.containsKey(key)) {
@@ -144,7 +149,7 @@ extension GetInstance on GetInterface {
   /// Generates the key based on [type] (and optionally a [name])
   /// to register an Instance Builder in the hashmap.
   String _getKey(Type type, String? name) {
-    return name == null ? type.toString() : type.toString() + name;
+    return name == null ? type.toString() : '${type}_$name';
   }
 
   /// Delete registered Class Instance [S] (or [tag]) and, closes any open
@@ -242,7 +247,8 @@ extension GetInstance on GetInterface {
 
   /// Check if a Class Instance<[S]> (or [tag]) is registered in memory.
   /// - [tag] is optional, if you used a [tag] to register the Instance.
-  bool isRegistered<S>({String? tag}) => _instances.containsKey(_getKey(S, tag));
+  bool isRegistered<S>({String? tag}) =>
+      _instances.containsKey(_getKey(S, tag));
 
   /// Checks if a lazy factory callback `Get.lazyPut()` that returns an
   /// Instance<[S]> is registered in memory.
@@ -300,7 +306,7 @@ class InstanceBuilderFactory<S> {
     if (tag == null) {
       _getxLog('Instance "$S" has been created', showLog: showLog);
     } else {
-      _getxLog('Instance "$S" has been created with tag "$tag"', showLog: showLog);
+      _getxLog('Instance "${S}_$tag" has been created', showLog: showLog);
     }
   }
 
